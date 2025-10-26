@@ -1,0 +1,74 @@
+/* ============================================
+   CHOJIN BEATS - Estilos Principales
+   Sistema de diseño modular y organizado
+   ============================================ */
+
+/* BASE - Fundamentos */
+@import 'base/variables.css';
+@import 'base/reset.css';
+@import 'base/typography.css';
+
+/* COMPONENTS - Componentes reutilizables */
+@import 'components/buttons.css';
+@import 'components/cards.css';
+@import 'components/forms.css';
+@import 'components/alerts.css';
+@import 'components/badges.css';
+@import 'components/tables.css';
+@import 'components/navbar.css';
+
+/* UTILITIES - Utilidades */
+@import 'utilities/layout.css';
+@import 'utilities/spacing.css';
+@import 'utilities/misc.css';
+
+/* PAGES - Estilos específicos de páginas */
+@import 'pages/auth.css';
+@import 'pages/admin.css';
+@import 'pages/productor.css';
+@import 'pages/artista.css';
+@import 'pages/catalogo.css';
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.75rem; }
+    h3 { font-size: 1.5rem; }
+    
+    .grid-cols-2,
+    .grid-cols-3,
+    .grid-cols-4 {
+        grid-template-columns: 1fr;
+    }
+    
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(15, 23, 42, 0.98);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .nav-links.show {
+        display: flex;
+    }
+    
+    .mobile-menu-btn {
+        display: inline-flex;
+    }
+    
+    .table-container {
+        font-size: 0.875rem;
+    }
+    
+    .auth-card {
+        padding: 1rem;
+    }
+}
+

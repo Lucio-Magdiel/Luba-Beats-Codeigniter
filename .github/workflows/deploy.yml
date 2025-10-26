@@ -1,0 +1,54 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to cPanel
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+        extensions: mbstring, intl, mysqli
+        
+    - name: Install Composer dependencies
+      run: composer install --no-dev --optimize-autoloader --no-interaction
+      
+    - name: Create deployment package
+      run: |
+        mkdir deploy
+        cp -r app deploy/
+        cp -r public deploy/
+        cp -r system deploy/
+        cp -r vendor deploy/
+        cp -r writable deploy/
+        cp composer.json deploy/
+        cp .env.production deploy/.env
+        echo "Package created successfully"
+        
+    - name: Deploy to cPanel via FTP
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./deploy/
+        server-dir: /chojin_app/
+        exclude: |
+          .git*
+          .git*/**
+          writable/cache/*
+          writable/logs/*
+          writable/session/*
+          
+    - name: Deployment complete
+      run: echo "✅ Deployment to production completed successfully!"

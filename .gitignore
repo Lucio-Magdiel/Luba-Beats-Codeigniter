@@ -1,0 +1,55 @@
+# Ignorar archivos de entorno
+.env
+.env.local
+.env.production.local
+
+# Ignorar dependencias
+/vendor/
+
+# Ignorar archivos temporales
+/writable/cache/*
+!/writable/cache/index.html
+/writable/logs/*
+!/writable/logs/index.html
+/writable/session/*
+!/writable/session/index.html
+/writable/debugbar/*
+!/writable/debugbar/index.html
+
+# Ignorar uploads locales (Cloudinary maneja archivos)
+/writable/uploads/*
+!/writable/uploads/index.html
+/public/uploads/*
+!/public/uploads/index.html
+
+# Ignorar archivos del sistema operativo
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Ignorar archivos de IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Ignorar archivos de testing
+/tests/_output/*
+phpunit.xml
+
+# Ignorar node_modules si usas npm
+node_modules/
+package-lock.json
+yarn.lock
+
+# Ignorar archivos de composer
+composer.lock
+
+# Ignorar archivos de desarrollo
+*.log
+.phpunit.result.cache

@@ -1,0 +1,40 @@
+# ============================================
+# INSTRUCCIONES PARA CONFIGURAR CLOUDINARY
+# ============================================
+#
+# 1. Crea una cuenta gratuita en: https://cloudinary.com/users/register_free
+# 
+# 2. Ve al Dashboard y copia tus credenciales:
+#    - Cloud Name
+#    - API Key
+#    - API Secret
+#
+# 3. Descomenta las líneas de abajo y reemplaza con tus valores:
+#
+# cloudinary.cloudName = tu-cloud-name-aqui
+# cloudinary.apiKey = 123456789012345
+# cloudinary.apiSecret = AbCdEfGhIjKlMnOpQrStUvWxYz
+#
+# 4. Guarda este archivo
+#
+# 5. ¡Listo! Todos los archivos se subirán a Cloudinary automáticamente
+#
+# ============================================
+# BENEFICIOS DE CLOUDINARY:
+# ============================================
+# ✅ Plan gratuito: 25 GB almacenamiento + 25 GB ancho de banda/mes
+# ✅ No ocupa espacio en tu hosting
+# ✅ CDN global (velocidad rápida en todo el mundo)
+# ✅ Optimización automática de imágenes (WebP, AVIF)
+# ✅ Backups automáticos
+# ✅ Escalable sin límites
+#
+# Organización de archivos en Cloudinary:
+# - chojin/profiles/      → Fotos de perfil
+# - chojin/banners/       → Banners de perfil
+# - chojin/playlists/     → Portadas de playlists
+# - chojin/beats/         → Archivos de audio (beats)
+# - chojin/musica/        → Archivos de audio (música artistas)
+# - chojin/visuales/      → Imágenes/videos de beats
+# - chojin/visuales/musica/ → Imágenes/videos de música
+# ============================================

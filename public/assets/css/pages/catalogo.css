@@ -1,0 +1,755 @@
+/* ============================================
+   CATÁLOGO - Estilo Spotify x YouTube Music
+   Dark mode minimalista con cards vibrantes
+   ============================================ */
+
+/* Hero Section con gradiente */
+.catalog-hero {
+    background: linear-gradient(180deg, 
+        rgba(30, 215, 96, 0.1) 0%, 
+        transparent 100%);
+    padding: 3rem 2rem 2rem;
+    text-align: center;
+}
+
+.catalog-hero h1,
+.hero-title {
+    font-size: 3rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #1ed760 0%, #1db954 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.hero-subtitle,
+.catalog-subtitle {
+    color: var(--gray-400);
+    font-size: 1.125rem;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+/* Search Bar estilo Spotify */
+.search-section,
+.search-form {
+    max-width: 720px;
+    margin: 0 auto 3rem;
+    padding: 0 1rem;
+}
+
+.search-wrapper,
+.search-bar {
+    position: relative;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 500px;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+}
+
+.search-wrapper:focus-within,
+.search-bar:focus-within {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(30, 215, 96, 0.5);
+    box-shadow: 0 8px 24px rgba(30, 215, 96, 0.15);
+}
+
+.search-icon,
+.search-bar > i {
+    color: var(--gray-400);
+    font-size: 1.25rem;
+}
+
+.search-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+    flex: 1;
+    padding: 0;
+}
+
+.search-input::placeholder {
+    color: var(--gray-500);
+}
+
+.search-btn {
+    background: linear-gradient(135deg, #1ed760 0%, #1db954 100%);
+    color: #000;
+    border: none;
+    border-radius: 500px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 700;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.search-btn:hover {
+    transform: scale(1.04);
+    box-shadow: 0 8px 24px rgba(30, 215, 96, 0.3);
+}
+
+/* Beats Grid - estilo YouTube Music */
+.catalog-main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.beats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 0 1rem;
+}
+
+/* Beat Card - Fusión Spotify + YT Music */
+.beat-card {
+    background: linear-gradient(145deg, 
+        rgba(40, 40, 44, 0.6) 0%, 
+        rgba(30, 30, 34, 0.8) 100%);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.beat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    border-color: rgba(30, 215, 96, 0.3);
+}
+
+.beat-card:hover .beat-visual {
+    transform: scale(1.08);
+}
+
+/* Visual Container */
+.beat-visual-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1e 0%, #2a2a2e 100%);
+}
+
+.beat-visual {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.beat-visual.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: rgba(30, 215, 96, 0.3);
+}
+
+/* Badge de Tipo (BEAT/MÚSICA) */
+.beat-type-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    backdrop-filter: blur(10px);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.beat-type-badge.beat {
+    background: rgba(30, 215, 96, 0.9);
+    color: #000;
+}
+
+.beat-type-badge.musica {
+    background: rgba(147, 51, 234, 0.9);
+    color: #fff;
+}
+
+.beat-type-badge i {
+    font-size: 0.875rem;
+}
+
+/* Play Overlay - No usado en layout horizontal
+.play-overlay {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 56px;
+    height: 56px;
+    background: #1ed760;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.3s;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.beat-card:hover .play-overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.play-overlay i {
+    font-size: 1.5rem;
+    color: #000;
+    margin-left: 2px;
+}
+*/
+
+/* Beat Info */
+.beat-info {
+    padding: 1rem;
+}
+
+.beat-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Creator Info */
+.beat-creator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.beat-creator:hover {
+    background: rgba(30, 215, 96, 0.1);
+}
+
+/* Hover púrpura para artistas */
+.music-card .beat-creator:hover,
+.musica-card .beat-creator:hover,
+.musica-type .beat-creator:hover,
+.favorite-card.musica-type .beat-creator:hover {
+    background: rgba(147, 51, 234, 0.1);
+}
+
+.creator-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #1ed760 0%, #17a34a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Avatar púrpura para artistas/música */
+.creator-avatar.artista,
+.music-card .creator-avatar,
+.musica-card .creator-avatar,
+.musica-type .creator-avatar,
+.favorite-card.musica-type .creator-avatar {
+    background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+}
+
+.creator-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.creator-avatar i {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.creator-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+}
+
+.beat-creator:hover .creator-name {
+    color: var(--primary);
+}
+
+/* Color púrpura para nombre de artistas al hover */
+.music-card .beat-creator:hover .creator-name,
+.musica-card .beat-creator:hover .creator-name,
+.musica-type .beat-creator:hover .creator-name,
+.favorite-card.musica-type .beat-creator:hover .creator-name {
+    color: #9333ea;
+}
+
+.beat-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+}
+
+.beat-genre {
+    background: rgba(30, 215, 96, 0.15);
+    color: #1ed760;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.beat-stats {
+    display: flex;
+    gap: 1rem;
+    color: var(--gray-400);
+    font-size: 0.875rem;
+}
+
+.beat-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Waveform Player integrado */
+.beat-player {
+    padding: 0 1rem 1rem;
+}
+
+.waveform-wrapper {
+    background: rgba(30, 215, 96, 0.05);
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.waveform {
+    height: 60px;
+    border-radius: 4px;
+}
+
+/* Controles del player */
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.play-btn {
+    width: 40px;
+    height: 40px;
+    background: #1ed760;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.play-btn:hover {
+    transform: scale(1.06);
+    background: #1fdf64;
+}
+
+.play-btn i {
+    font-size: 1.25rem;
+    color: #000;
+    margin-left: 2px;
+}
+
+.play-btn.playing i {
+    margin-left: 0;
+}
+
+.time-display {
+    font-size: 0.75rem;
+    color: var(--gray-400);
+    font-variant-numeric: tabular-nums;
+}
+
+/* Botón Agregar a Playlist */
+.add-to-playlist-btn {
+    width: 32px;
+    height: 32px;
+    background: rgba(30, 215, 96, 0.15);
+    border: 1px solid rgba(30, 215, 96, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1ed760;
+    font-size: 1.125rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.add-to-playlist-btn:hover {
+    background: rgba(30, 215, 96, 0.25);
+    border-color: #1ed760;
+    transform: scale(1.1);
+}
+
+/* Actions */
+.beat-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem 1rem;
+}
+
+.beat-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #1ed760 0%, #1db954 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.fav-btn-catalog {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--gray-400);
+}
+
+.fav-btn-catalog:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.fav-btn-catalog.active {
+    color: #1ed760;
+}
+
+.fav-btn-catalog i {
+    font-size: 1.25rem;
+}
+
+.detail-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    padding: 0.625rem 1.25rem;
+    border-radius: 500px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.detail-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(30, 215, 96, 0.5);
+    transform: scale(1.02);
+}
+
+/* Header estilo Spotify */
+.catalog-header {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #1ed760 0%, #1db954 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Tabs de Navegación (Beats/Música) */
+.catalog-tabs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.25rem;
+    border-radius: 500px;
+}
+
+.tab-link {
+    padding: 0.625rem 1.25rem;
+    border-radius: 500px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tab-link:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.tab-link.active {
+    color: #000;
+    background: #1ed760;
+}
+
+.tab-link i {
+    font-size: 1rem;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 500px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.nav-btn.active {
+    color: #000;
+    background: #1ed760;
+}
+
+.nav-btn i {
+    margin-right: 0.25rem;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--gray-400);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: rgba(30, 215, 96, 0.3);
+    margin-bottom: 1rem;
+}
+
+/* Footer estilo minimalista */
+.catalog-footer {
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.footer-link {
+    color: var(--gray-400);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s;
+}
+
+.footer-link:hover {
+    color: #1ed760;
+}
+
+.copyright {
+    color: var(--gray-500);
+    font-size: 0.75rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .catalog-hero h1,
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .beats-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 1rem;
+    }
+    
+    .beat-info {
+        padding: 0.75rem;
+    }
+    
+    .beat-title {
+        font-size: 1rem;
+    }
+    
+    .beat-price {
+        font-size: 1.25rem;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.beat-card {
+    animation: fadeInUp 0.4s ease forwards;
+}
+
+.beat-card:nth-child(1) { animation-delay: 0.05s; }
+.beat-card:nth-child(2) { animation-delay: 0.1s; }
+.beat-card:nth-child(3) { animation-delay: 0.15s; }
+.beat-card:nth-child(4) { animation-delay: 0.2s; }
+.beat-card:nth-child(5) { animation-delay: 0.25s; }
+.beat-card:nth-child(6) { animation-delay: 0.3s; }
+
+/* ============================================
+   LAYOUT DE SECCIONES EN COLUMNAS
+   Beats a la izquierda, Música a la derecha
+   ============================================ */
+
+.sections-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.section-column {
+    min-width: 0;
+}
+
+.section-column .beats-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    padding: 0;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+}
+
+.section-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+}
+
+.section-link {
+    color: var(--gray-400);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s;
+}
+
+.section-link:hover {
+    color: #1ed760;
+}
+
+/* Responsive para secciones */
+@media (max-width: 1024px) {
+    .sections-container {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+}
