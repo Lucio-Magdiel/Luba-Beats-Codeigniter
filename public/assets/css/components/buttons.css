@@ -103,3 +103,43 @@
     width: 2.75rem;
     height: 2.75rem;
 }
+
+/* Social Login Buttons */
+.btn-social {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 2px solid #e5e7eb;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition);
+    background: white;
+    color: #374151;
+}
+
+.btn-social:hover {
+    transform: translateY(-2px);
+    border-color: #d1d5db;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-google:hover {
+    border-color: #EA4335;
+    background: #fef2f2;
+}
+
+.btn-github {
+    border-color: #333;
+    color: #333;
+}
+
+.btn-github:hover {
+    background: #333;
+    color: white;
+    border-color: #333;
+}

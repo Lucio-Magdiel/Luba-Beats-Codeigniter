@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 use App\Models\UsuarioModel;
+use App\Models\MagicLinkModel;
 use CodeIgniter\Controller;
+use League\OAuth2\Client\Provider\Google;
 
 class Auth extends \CodeIgniter\Controller
 {
@@ -184,6 +186,211 @@ class Auth extends \CodeIgniter\Controller
     {
         session()->destroy();
         return redirect()->to('/auth/login');
+    }
+    
+    // ========================================
+    // GOOGLE OAUTH LOGIN
+    // ========================================
+    
+    public function loginWithGoogle()
+    {
+        $provider = new Google([
+            'clientId'     => env('google.clientId'),
+            'clientSecret' => env('google.clientSecret'),
+            'redirectUri'  => env('google.redirectUri'),
+        ]);
+        
+        $authUrl = $provider->getAuthorizationUrl();
+        session()->set('oauth2state', $provider->getState());
+        
+        return redirect()->to($authUrl);
+    }
+    
+    public function googleCallback()
+    {
+        $provider = new Google([
+            'clientId'     => env('google.clientId'),
+            'clientSecret' => env('google.clientSecret'),
+            'redirectUri'  => env('google.redirectUri'),
+        ]);
+        
+        // Verificar state para prevenir CSRF
+        if (empty($this->request->getGet('state')) || 
+            ($this->request->getGet('state') !== session()->get('oauth2state'))) {
+            session()->remove('oauth2state');
+            session()->setFlashdata('error', 'Estado inválido. Intenta de nuevo.');
+            return redirect()->to('/auth/login');
+        }
+        
+        try {
+            // Obtener access token
+            $token = $provider->getAccessToken('authorization_code', [
+                'code' => $this->request->getGet('code')
+            ]);
+            
+            // Obtener datos del usuario
+            $googleUser = $provider->getResourceOwner($token);
+            $email = $googleUser->getEmail();
+            $nombre = $googleUser->getName();
+            
+            // Buscar o crear usuario
+            $usuarioModel = new UsuarioModel();
+            $usuario = $usuarioModel->where('correo', $email)->first();
+            
+            if (!$usuario) {
+                // Crear nuevo usuario automáticamente
+                $data = [
+                    'nombre_usuario' => $nombre,
+                    'correo'         => $email,
+                    'contrasena'     => password_hash(bin2hex(random_bytes(16)), PASSWORD_BCRYPT),
+                    'tipo'           => 'comprador', // Tipo por defecto
+                    'fecha_registro' => date('Y-m-d H:i:s'),
+                    'verificado_google' => 1,
+                ];
+                
+                $usuarioModel->insert($data);
+                $usuario = $usuarioModel->where('correo', $email)->first();
+            }
+            
+            // Iniciar sesión
+            $session = session();
+            $session->set([
+                'id'            => $usuario['id'],
+                'nombre_usuario'=> $usuario['nombre_usuario'],
+                'tipo'          => $usuario['tipo'],
+                'logueado'      => true,
+            ]);
+            
+            session()->setFlashdata('success', '¡Bienvenido, ' . $usuario['nombre_usuario'] . '!');
+            
+            // Redirigir según tipo de usuario
+            switch ($usuario['tipo']) {
+                case 'super_admin':
+                    return redirect()->to('/admin/dashboard');
+                case 'productor':
+                    return redirect()->to('/productor/panel');
+                case 'artista':
+                    return redirect()->to('/artista/panel');
+                default:
+                    return redirect()->to('/catalogo');
+            }
+            
+        } catch (\Exception $e) {
+            log_message('error', 'Error en Google OAuth: ' . $e->getMessage());
+            session()->setFlashdata('error', 'Error al iniciar sesión con Google. Intenta de nuevo.');
+            return redirect()->to('/auth/login');
+        }
+    }
+    
+    // ========================================
+    // MAGIC LINK LOGIN
+    // ========================================
+    
+    public function sendMagicLink()
+    {
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'correo' => 'required|valid_email',
+        ]);
+        
+        if (!$validation->withRequest($this->request)->run()) {
+            session()->setFlashdata('error', 'Por favor ingresa un correo válido.');
+            return redirect()->to('/auth/login');
+        }
+        
+        $email = $this->request->getPost('correo');
+        
+        // Verificar que el usuario exista
+        $usuarioModel = new UsuarioModel();
+        $usuario = $usuarioModel->where('correo', $email)->first();
+        
+        if (!$usuario) {
+            // Por seguridad, no revelamos si el email existe o no
+            session()->setFlashdata('success', 
+                'Si el correo existe, recibirás un link para iniciar sesión en los próximos minutos.');
+            return redirect()->to('/auth/login');
+        }
+        
+        // Crear magic link
+        $magicLinkModel = new MagicLinkModel();
+        $token = $magicLinkModel->createMagicLink($email);
+        
+        if ($token) {
+            // Enviar email
+            $link = base_url("auth/verify-magic-link/{$token}");
+            
+            $emailService = \Config\Services::email();
+            $emailService->setFrom(env('email.fromEmail'), env('email.fromName'));
+            $emailService->setTo($email);
+            $emailService->setSubject('Tu enlace de inicio de sesión - CHOJIN Beats');
+            
+            $message = view('auth/magic_link_email', [
+                'nombre' => $usuario['nombre_usuario'],
+                'link' => $link,
+            ]);
+            
+            $emailService->setMessage($message);
+            
+            if ($emailService->send()) {
+                session()->setFlashdata('success', 
+                    '¡Link mágico enviado! Revisa tu correo electrónico.');
+            } else {
+                log_message('error', 'Error al enviar magic link: ' . $emailService->printDebugger());
+                session()->setFlashdata('error', 
+                    'Error al enviar el correo. Intenta de nuevo o usa otro método.');
+            }
+        } else {
+            session()->setFlashdata('error', 'Error al generar el link. Intenta de nuevo.');
+        }
+        
+        return redirect()->to('/auth/login');
+    }
+    
+    public function verifyMagicLink($token = null)
+    {
+        if (!$token) {
+            session()->setFlashdata('error', 'Link inválido.');
+            return redirect()->to('/auth/login');
+        }
+        
+        $magicLinkModel = new MagicLinkModel();
+        $link = $magicLinkModel->verifyToken($token);
+        
+        if (!$link) {
+            session()->setFlashdata('error', 'Este link ha expirado o ya fue usado.');
+            return redirect()->to('/auth/login');
+        }
+        
+        // Buscar usuario y autenticar
+        $usuarioModel = new UsuarioModel();
+        $usuario = $usuarioModel->where('correo', $link['email'])->first();
+        
+        if ($usuario) {
+            $session = session();
+            $session->set([
+                'id'            => $usuario['id'],
+                'nombre_usuario'=> $usuario['nombre_usuario'],
+                'tipo'          => $usuario['tipo'],
+                'logueado'      => true,
+            ]);
+            
+            session()->setFlashdata('success', '¡Bienvenido de nuevo, ' . $usuario['nombre_usuario'] . '!');
+            
+            // Redirigir según tipo de usuario
+            switch ($usuario['tipo']) {
+                case 'super_admin':
+                    return redirect()->to('/admin/dashboard');
+                case 'productor':
+                    return redirect()->to('/productor/panel');
+                case 'artista':
+                    return redirect()->to('/artista/panel');
+                default:
+                    return redirect()->to('/catalogo');
+            }
+        } else {
+            session()->setFlashdata('error', 'Usuario no encontrado.');
+            return redirect()->to('/auth/login');
+        }
     }
     
 }

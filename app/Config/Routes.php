@@ -18,6 +18,14 @@ $routes->get('auth/registro', 'Auth::registro');
 $routes->post('auth/procesar_registro', 'Auth::procesar_registro');
 $routes->get('auth/logout', 'Auth::logout');
 
+// Google OAuth
+$routes->get('auth/google', 'Auth::loginWithGoogle');
+$routes->get('auth/google/callback', 'Auth::googleCallback');
+
+// Magic Link
+$routes->post('auth/send-magic-link', 'Auth::sendMagicLink');
+$routes->get('auth/verify-magic-link/(:any)', 'Auth::verifyMagicLink/$1');
+
 
 // ==========================================
 // RUTAS DE SUPER ADMIN (Protegidas con filtro 'superadmin')
