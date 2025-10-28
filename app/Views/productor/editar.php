@@ -65,10 +65,16 @@
       <?php if(!empty($beat['archivo_visual'])): ?>
         <div class="visual-preview">
           Visual actual:
+          <?php 
+          // Detectar si es URL de Cloudinary (completa) o ruta local
+          $visualUrl = (strpos($beat['archivo_visual'], 'http') === 0) 
+                      ? $beat['archivo_visual'] 
+                      : asset_url($beat['archivo_visual']);
+          ?>
           <?php if(preg_match('/\.(jpg|jpeg|png|gif)$/i', $beat['archivo_visual'])): ?>
-            <img src="<?= base_url($beat['archivo_visual']) ?>" alt="Visual actual">
+            <img src="<?= $visualUrl ?>" alt="Visual actual">
           <?php elseif(preg_match('/\.mp4$/i', $beat['archivo_visual'])): ?>
-            <video src="<?= base_url($beat['archivo_visual']) ?>" controls aria-label="Visual actual"></video>
+            <video src="<?= $visualUrl ?>" controls aria-label="Visual actual"></video>
           <?php endif; ?>
         </div>
       <?php endif; ?>
@@ -79,7 +85,13 @@
       <input type="file" name="archivo_preview" id="archivo_preview" class="form-input-productor" accept="audio/mp3,audio/mpeg" />
 
       <?php if(!empty($beat['archivo_preview'])): ?>
-        <audio controls preload="none" src="<?= base_url($beat['archivo_preview']) ?>" class="visual-preview" aria-label="Preview actual"></audio>
+        <?php 
+        // Detectar si es URL de Cloudinary (completa) o ruta local
+        $audioUrl = (strpos($beat['archivo_preview'], 'http') === 0) 
+                   ? $beat['archivo_preview'] 
+                   : asset_url($beat['archivo_preview']);
+        ?>
+        <audio controls preload="none" src="<?= $audioUrl ?>" class="visual-preview" aria-label="Preview actual"></audio>
       <?php endif; ?>
 
       <div class="btn-group-productor">

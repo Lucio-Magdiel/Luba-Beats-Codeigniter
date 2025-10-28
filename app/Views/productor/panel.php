@@ -84,9 +84,9 @@
                 <td>
                   <?php if(!empty($beat['archivo_visual'])): ?>
                     <?php if(preg_match('/\.(jpg|jpeg|png|gif)$/i', $beat['archivo_visual'])): ?>
-                      <img src="<?= base_url($beat['archivo_visual']) ?>" alt="Visual del beat <?= esc($beat['titulo']) ?>">
+                      <img src="<?= asset_url($beat['archivo_visual']) ?>" alt="Visual del beat <?= esc($beat['titulo']) ?>">
                     <?php elseif(preg_match('/\.mp4$/i', $beat['archivo_visual'])): ?>
-                      <video src="<?= base_url($beat['archivo_visual']) ?>" controls aria-label="Video preview del beat <?= esc($beat['titulo']) ?>"></video>
+                      <video src="<?= asset_url($beat['archivo_visual']) ?>" controls aria-label="Video preview del beat <?= esc($beat['titulo']) ?>"></video>
                     <?php endif; ?>
                   <?php else: ?>
                     <span style="color:#5a6a4d;font-style: italic;">No disponible</span>
@@ -94,7 +94,7 @@
                 </td>
                 <td>
                   <?php if(!empty($beat['archivo_preview'])): ?>
-                    <audio controls preload="none" src="<?= base_url($beat['archivo_preview']) ?>" aria-label="Audio preview del beat <?= esc($beat['titulo']) ?>"></audio>
+                    <audio controls preload="none" src="<?= asset_url($beat['archivo_preview']) ?>" aria-label="Audio preview del beat <?= esc($beat['titulo']) ?>"></audio>
                   <?php else: ?>
                     <span style="color:#5a6a4d;font-style: italic;">No disponible</span>
                   <?php endif; ?>

@@ -300,9 +300,9 @@
         <div class="detail-visual <?php if(empty($beat['archivo_visual'])) echo 'placeholder'; ?>">
           <?php if(!empty($beat['archivo_visual'])): ?>
             <?php if(preg_match('/\.(jpg|jpeg|png|gif)$/i', $beat['archivo_visual'])): ?>
-              <img src="<?= base_url($beat['archivo_visual']) ?>" alt="<?= esc($beat['titulo']) ?>">
+              <img src="<?= asset_url($beat['archivo_visual']) ?>" alt="<?= esc($beat['titulo']) ?>">
             <?php elseif(preg_match('/\.mp4$/i', $beat['archivo_visual'])): ?>
-              <video src="<?= base_url($beat['archivo_visual']) ?>" controls></video>
+              <video src="<?= asset_url($beat['archivo_visual']) ?>" controls></video>
             <?php endif; ?>
           <?php else: ?>
             <i class="bi bi-music-note-beamed"></i>
@@ -447,7 +447,7 @@
       });
 
       // Cargar el audio
-      wavesurfer.load('<?= base_url($beat['archivo_preview']) ?>');
+      wavesurfer.load('<?= asset_url($beat['archivo_preview']) ?>');
 
       // Deshabilitar botón hasta que esté listo
       playBtn.disabled = true;

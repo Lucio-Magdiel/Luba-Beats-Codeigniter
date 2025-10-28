@@ -5,32 +5,108 @@
  */
 
 // ============================================
-// DROPDOWN MENU
+// NAVBAR MODERNO - USER DROPDOWN
 // ============================================
-function toggleDropdown() {
+function toggleUserDropdown() {
     const dropdown = document.getElementById('userDropdown');
+    const notificationsDropdown = document.getElementById('notificationsDropdown');
+    
     if (dropdown) {
         dropdown.classList.toggle('show');
+        // Cerrar notificaciones si están abiertas
+        if (notificationsDropdown) {
+            notificationsDropdown.classList.remove('show');
+        }
     }
 }
 
-// Cerrar dropdown al hacer clic fuera
-document.addEventListener('click', function(event) {
-    const dropdown = document.getElementById('userDropdown');
-    const dropdownBtn = event.target.closest('.nav-item-dropdown');
+// ============================================
+// NAVBAR MODERNO - NOTIFICACIONES
+// ============================================
+function toggleNotifications() {
+    const dropdown = document.getElementById('notificationsDropdown');
+    const userDropdown = document.getElementById('userDropdown');
     
-    if (dropdown && !dropdownBtn) {
-        dropdown.classList.remove('show');
+    if (dropdown) {
+        dropdown.classList.toggle('show');
+        // Cerrar user dropdown si está abierto
+        if (userDropdown) {
+            userDropdown.classList.remove('show');
+        }
+    }
+}
+
+// ============================================
+// BARRA DE BÚSQUEDA
+// ============================================
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('navbarSearch');
+    const clearBtn = document.getElementById('clearSearch');
+    
+    if (searchInput && clearBtn) {
+        // Mostrar/ocultar botón de limpiar
+        searchInput.addEventListener('input', function() {
+            if (this.value.length > 0) {
+                clearBtn.style.display = 'flex';
+            } else {
+                clearBtn.style.display = 'none';
+            }
+        });
+        
+        // Limpiar búsqueda
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            clearBtn.style.display = 'none';
+            searchInput.focus();
+        });
+        
+        // Búsqueda al presionar Enter
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.trim()) {
+                window.location.href = `${baseUrl}/catalogo?search=${encodeURIComponent(this.value.trim())}`;
+            }
+        });
     }
 });
+
+// Cerrar dropdowns al hacer clic fuera
+document.addEventListener('click', function(event) {
+    const userDropdown = document.getElementById('userDropdown');
+    const notificationsDropdown = document.getElementById('notificationsDropdown');
+    const userBtn = event.target.closest('.user-btn');
+    const notificationBtn = event.target.closest('.icon-btn');
+    
+    // Cerrar user dropdown si se hace clic fuera
+    if (userDropdown && !userBtn && !event.target.closest('.user-dropdown')) {
+        userDropdown.classList.remove('show');
+    }
+    
+    // Cerrar notificaciones si se hace clic fuera
+    if (notificationsDropdown && !notificationBtn && !event.target.closest('.notifications-dropdown')) {
+        notificationsDropdown.classList.remove('show');
+    }
+});
+
+// ============================================
+// DROPDOWN MENU (Retrocompatibilidad)
+// ============================================
+function toggleDropdown() {
+    toggleUserDropdown();
+}
 
 // ============================================
 // MOBILE MENU
 // ============================================
 function toggleMobileMenu() {
     const navLinks = document.getElementById('navLinks');
+    const mobileBtn = document.querySelector('.mobile-menu-btn');
+    
     if (navLinks) {
         navLinks.classList.toggle('show');
+    }
+    
+    if (mobileBtn) {
+        mobileBtn.classList.toggle('active');
     }
 }
 

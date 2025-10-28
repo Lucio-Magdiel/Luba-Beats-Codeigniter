@@ -63,9 +63,9 @@
           <div class="artista-visual-preview">
             <p>Visual actual:</p>
             <?php if(preg_match('/\.(jpg|jpeg|png|gif)$/i', $beat['archivo_visual'])): ?>
-              <img src="<?= base_url($beat['archivo_visual']) ?>" alt="Visual actual">
+              <img src="<?= asset_url($beat['archivo_visual']) ?>" alt="Visual actual">
             <?php elseif(preg_match('/\.mp4$/i', $beat['archivo_visual'])): ?>
-              <video src="<?= base_url($beat['archivo_visual']) ?>" controls></video>
+              <video src="<?= asset_url($beat['archivo_visual']) ?>" controls></video>
             <?php endif; ?>
           </div>
         <?php endif; ?>
@@ -75,7 +75,7 @@
 
         <?php if(!empty($beat['archivo_preview'])): ?>
           <div class="artista-audio-preview">
-            <audio controls preload="none" src="<?= base_url($beat['archivo_preview']) ?>"></audio>
+            <audio controls preload="none" src="<?= asset_url($beat['archivo_preview']) ?>"></audio>
           </div>
         <?php endif; ?>
 

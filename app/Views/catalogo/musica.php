@@ -261,11 +261,11 @@
           <div class="music-visual-container">
             <?php if(!empty($track['archivo_visual'])): ?>
               <?php if(preg_match('/\.(jpg|jpeg|png|gif)$/i', $track['archivo_visual'])): ?>
-                <img src="<?= base_url($track['archivo_visual']) ?>" 
+                <img src="<?= asset_url($track['archivo_visual']) ?>" 
                      alt="<?= esc($track['titulo']) ?>"
                      class="music-visual">
               <?php elseif(preg_match('/\.mp4$/i', $track['archivo_visual'])): ?>
-                <video src="<?= base_url($track['archivo_visual']) ?>" 
+                <video src="<?= asset_url($track['archivo_visual']) ?>" 
                        class="music-visual"
                        muted 
                        loop></video>
@@ -341,7 +341,7 @@
             </div>
             
             <div class="player-controls">
-              <button class="play-btn" data-id="<?= $track['id'] ?>" data-src="<?= base_url($track['archivo_preview']) ?>">
+              <button class="play-btn" data-id="<?= $track['id'] ?>" data-src="<?= asset_url($track['archivo_preview']) ?>">
                 <i class="bi bi-play-fill"></i>
               </button>
               <span class="time-display" id="time-<?= $track['id'] ?>">0:00</span>

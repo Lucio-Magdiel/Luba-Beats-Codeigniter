@@ -121,11 +121,11 @@
           <div class="beat-visual-container">
             <?php if(!empty($beat['archivo_visual'])): ?>
               <?php if(preg_match('/\.(jpg|jpeg|png|gif)$/i', $beat['archivo_visual'])): ?>
-                <img src="<?= base_url($beat['archivo_visual']) ?>" 
+                <img src="<?= asset_url($beat['archivo_visual']) ?>" 
                      alt="<?= esc($beat['titulo']) ?>"
                      class="beat-visual">
               <?php elseif(preg_match('/\.mp4$/i', $beat['archivo_visual'])): ?>
-                <video src="<?= base_url($beat['archivo_visual']) ?>" 
+                <video src="<?= asset_url($beat['archivo_visual']) ?>" 
                        class="beat-visual"
                        muted 
                        loop></video>
@@ -188,7 +188,7 @@
             </div>
             
             <div class="player-controls">
-              <button class="play-btn" data-id="<?= $beat['id'] ?>" data-src="<?= base_url($beat['archivo_preview']) ?>">
+              <button class="play-btn" data-id="<?= $beat['id'] ?>" data-src="<?= asset_url($beat['archivo_preview']) ?>">
                 <i class="bi bi-play-fill"></i>
               </button>
               <span class="time-display" id="time-<?= $beat['id'] ?>">0:00</span>

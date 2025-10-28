@@ -89,9 +89,9 @@
                 <td>
                   <?php if(!empty($beat['archivo_visual'])): ?>
                     <?php if(preg_match('/\.(jpg|jpeg|png|gif)$/i', $beat['archivo_visual'])): ?>
-                      <img src="<?= base_url($beat['archivo_visual']) ?>" alt="Visual">
+                      <img src="<?= asset_url($beat['archivo_visual']) ?>" alt="Visual">
                     <?php elseif(preg_match('/\.mp4$/i', $beat['archivo_visual'])): ?>
-                      <video src="<?= base_url($beat['archivo_visual']) ?>" controls></video>
+                      <video src="<?= asset_url($beat['archivo_visual']) ?>" controls></video>
                     <?php endif; ?>
                   <?php else: ?>
                     <span style="color: #5a6a4d; font-style: italic;">—</span>
@@ -99,7 +99,7 @@
                 </td>
                 <td>
                   <?php if(!empty($beat['archivo_preview'])): ?>
-                    <audio controls preload="none" src="<?= base_url($beat['archivo_preview']) ?>"></audio>
+                    <audio controls preload="none" src="<?= asset_url($beat['archivo_preview']) ?>"></audio>
                   <?php else: ?>
                     <span style="color: #5a6a4d; font-style: italic;">—</span>
                   <?php endif; ?>

@@ -133,8 +133,8 @@
                     <?php foreach (array_slice($beats, 0, 6) as $beat): ?>
                         <div class="beat-card">
                             <a href="<?= base_url('/catalogo/detalle/' . $beat['id']) ?>" class="beat-cover">
-                                <?php if (!empty($beat['imagen_visual'])): ?>
-                                    <img src="<?= base_url($beat['imagen_visual']) ?>" alt="<?= esc($beat['titulo']) ?>">
+                                <?php if (!empty($beat['archivo_visual'])): ?>
+                                    <img src="<?= asset_url($beat['archivo_visual']) ?>" alt="<?= esc($beat['titulo']) ?>">
                                 <?php else: ?>
                                     <div class="beat-cover-default">
                                         <i class="bi bi-music-note"></i>
@@ -178,7 +178,7 @@
                             <a href="<?= base_url('/perfil/' . $usuario['nombre_usuario'] . '/playlist/' . $playlist['id']) ?>" 
                                class="playlist-cover">
                                 <?php if (!empty($playlist['imagen_portada'])): ?>
-                                    <img src="<?= base_url($playlist['imagen_portada']) ?>" alt="<?= esc($playlist['nombre']) ?>">
+                                    <img src="<?= asset_url($playlist['imagen_portada']) ?>" alt="<?= esc($playlist['nombre']) ?>">
                                 <?php else: ?>
                                     <div class="playlist-cover-default">
                                         <i class="bi bi-music-note-list"></i>
