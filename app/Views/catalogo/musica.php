@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Música | CHOJIN Beats</title>
+  <title>Música | LubaBeats Beta</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   
   <!-- Google Fonts -->
@@ -166,7 +166,12 @@
     <div class="header-content">
       <a href="<?= site_url('catalogo') ?>" class="logo">
         <i class="bi bi-music-note-beamed"></i>
-        CHOJIN
+        <div class="logo-text">
+          <span class="logo-brand">
+            <span class="logo-luba">LUBA</span><span class="logo-beats">Beats</span>
+          </span>
+          <span class="logo-tagline">PLATAFORMA BETA</span>
+        </div>
       </a>
       
       <!-- Tabs de Navegación -->
@@ -212,9 +217,9 @@
   <!-- Hero Section -->
   <section class="catalog-hero musica-hero">
     <h1 class="hero-title">
-      <i class="bi bi-music-note-list"></i> Música Gratuita
+      <i class="bi bi-music-note-list"></i> Música
     </h1>
-    <p class="hero-subtitle">Descubre música original de artistas emergentes - 100% gratis</p>
+    <p class="hero-subtitle">Luba Beats Beta - explora beats y música para tus proyectos</p>
     
     <!-- Barra de Búsqueda -->
     <form method="get" action="<?= site_url('catalogo/musica') ?>" class="search-form">
@@ -369,7 +374,7 @@
       <a href="<?= site_url('magdiel') ?>" class="footer-link">Magdiel UCHIHA</a>
       <a href="<?= site_url('contacto') ?>" class="footer-link">Contacto</a>
     </div>
-    <p class="copyright">&copy; <?= date('Y') ?> CHOJIN BEATS - Todos los derechos reservados</p>
+    <p class="copyright">&copy; <?= date('Y') ?> LubaBeats Beta - Plataforma gratuita de la familia LUBA</p>
   </footer>
 
   <!-- Scripts -->

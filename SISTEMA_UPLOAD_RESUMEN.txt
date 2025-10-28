@@ -1,0 +1,224 @@
+╔════════════════════════════════════════════════════════════════════════╗
+║                   ✨ SISTEMA DE UPLOAD DE AVATAR ✨                   ║
+║                        LubaBeats Beta v1.0.0                           ║
+╚════════════════════════════════════════════════════════════════════════╝
+
+📋 FUNCIONALIDADES IMPLEMENTADAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ VALIDACIÓN EN CLIENTE (JavaScript)
+   ├─ Verificación de tipo de archivo (JPG, PNG, GIF)
+   ├─ Validación de tamaño (Avatar: 2MB | Banner: 5MB)
+   ├─ Vista previa instantánea
+   ├─ Indicador visual de archivo seleccionado
+   └─ Alertas de error descriptivas
+
+✅ VALIDACIÓN EN SERVIDOR (PHP)
+   ├─ Validación de extensiones permitidas
+   ├─ Validación de tamaño máximo
+   ├─ Mensajes de error personalizados
+   ├─ Logs detallados para debugging
+   └─ Protección CSRF
+
+✅ INTEGRACIÓN CLOUDINARY
+   ├─ Upload automático a carpetas organizadas
+   ├─ Transformaciones optimizadas:
+   │  ├─ Avatar: 400x400px (crop facial)
+   │  └─ Banner: 1920x400px (crop centrado)
+   ├─ Compresión automática (quality: auto:good)
+   ├─ Formato automático (WebP cuando es posible)
+   └─ URLs seguras (HTTPS)
+
+✅ EXPERIENCIA DE USUARIO
+   ├─ Preview en tiempo real
+   ├─ Animación de pulso en botón seleccionado
+   ├─ Indicador "Subiendo imágenes..."
+   ├─ Botón deshabilitado durante upload
+   └─ Mensajes de éxito/error claros
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🗂️ ARCHIVOS MODIFICADOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📄 BACKEND (PHP)
+   ├─ app/Controllers/Usuario.php
+   │  └─ actualizarPerfil() - Mejorado con validación y feedback
+   │
+   └─ app/Libraries/CloudinaryService.php
+      ├─ uploadProfilePhoto() - Avatar 400x400px
+      └─ uploadProfileBanner() - Banner 1920x400px
+
+📄 FRONTEND (HTML/JS)
+   └─ app/Views/usuario/mi_perfil.php
+      ├─ previewImage() - Vista previa mejorada
+      ├─ Validación de archivos en cliente
+      └─ Indicador de progreso
+
+📄 ESTILOS (CSS)
+   └─ public/assets/css/pages/perfil.css
+      ├─ .file-selected - Indicador visual
+      └─ @keyframes pulse - Animación
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚀 CÓMO USAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+LOCAL (Localhost):
+   http://localhost:8080/usuario/mi-perfil
+
+PRODUCCIÓN:
+   https://lucio.tknegocios.com/chojin/usuario/mi-perfil
+
+PASOS:
+   1. Inicia sesión con tu usuario
+   2. Ve a "Mi Perfil"
+   3. Haz clic en el botón de cámara (avatar o banner)
+   4. Selecciona una imagen
+   5. Verás preview instantáneo + botón verde pulsante
+   6. Haz clic en "Guardar Cambios"
+   7. ¡Listo! Imagen subida a Cloudinary
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📦 ESTRUCTURA EN CLOUDINARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+chojin/
+├── profiles/
+│   └── profile_8.jpg          ← Avatar de magdiel
+├── banners/
+│   └── banner_8.jpg           ← Banner de magdiel
+├── beats/
+│   └── (audios de beats)
+├── visuales/
+│   └── (portadas de beats)
+└── playlists/
+    └── (portadas de playlists)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎨 TRANSFORMACIONES CLOUDINARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+AVATAR:
+   • Tamaño: 400x400px
+   • Crop: fill (rellena todo el espacio)
+   • Gravity: face (detecta y centra rostros)
+   • Quality: auto:good
+   • Format: auto (WebP si es soportado)
+
+BANNER:
+   • Tamaño: 1920x400px
+   • Crop: fill
+   • Quality: auto:good
+   • Format: auto
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔒 SEGURIDAD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Validación de tipo de archivo (MIME + extensión)
+✅ Validación de tamaño máximo
+✅ Solo usuarios autenticados
+✅ Solo el dueño puede editar su perfil
+✅ CSRF protection (CodeIgniter)
+✅ Sanitización de inputs
+✅ URLs seguras (HTTPS)
+✅ Logs de errores para auditoría
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 LÍMITES Y RESTRICCIONES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TIPO DE ARCHIVO:
+   ✓ JPG, JPEG
+   ✓ PNG
+   ✓ GIF
+   ✗ BMP, TIFF, SVG, WebP (no permitidos)
+
+TAMAÑO MÁXIMO:
+   • Avatar: 2MB (2,048 KB)
+   • Banner: 5MB (5,120 KB)
+
+RESOLUCIÓN RECOMENDADA:
+   • Avatar: Mínimo 400x400px
+   • Banner: Mínimo 1920x400px
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🐛 DEBUGGING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VER LOGS:
+   tail -f writable/logs/log-2025-10-28.php
+
+ERRORES COMUNES:
+
+   1. "Error al subir foto de perfil"
+      → Verifica credenciales Cloudinary en .env
+      → Revisa logs del servidor
+
+   2. "La imagen es muy grande"
+      → Avatar: Max 2MB
+      → Banner: Max 5MB
+      → Comprime la imagen
+
+   3. "Tipo de archivo no válido"
+      → Solo JPG, PNG, GIF
+      → Verifica extensión
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✨ ESTADO ACTUAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Sistema completamente funcional
+✅ Validaciones en cliente y servidor
+✅ Integración con Cloudinary
+✅ Preview en tiempo real
+✅ Feedback visual mejorado
+✅ Documentación completa
+✅ Listo para producción
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 TODO LIST - COMPLETADO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Rebranding: Logo y Navbar
+✅ Rebranding: Títulos y Metadatos
+✅ Página Acerca de/Créditos
+✅ Sección Desarrollador en Footer
+✅ Sistema de Upload de Avatar
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚀 PRÓXIMAS MEJORAS (Opcional)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⭕ Crop/recorte de imagen antes de subir
+⭕ Filtros de imagen (B&N, sepia, etc)
+⭕ Drag & drop para subir archivos
+⭕ Barra de progreso durante upload
+⭕ Soporte para GIFs animados
+⭕ Eliminar imagen (revertir a placeholder)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+👤 DESARROLLADOR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+   Magdiel UCHIHA
+   Desarrollador Full Stack
+   
+   LubaBeats Beta - Plataforma de Beats
+   Versión: 1.0.0
+   Fecha: Octubre 2025
+
+╔════════════════════════════════════════════════════════════════════════╗
+║                    🎉 ¡IMPLEMENTACIÓN COMPLETA! 🎉                    ║
+╚════════════════════════════════════════════════════════════════════════╝

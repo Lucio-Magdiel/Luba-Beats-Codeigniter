@@ -322,7 +322,7 @@ class Auth extends \CodeIgniter\Controller
             $emailService = \Config\Services::email();
             $emailService->setFrom(env('email.fromEmail'), env('email.fromName'));
             $emailService->setTo($email);
-            $emailService->setSubject('Tu enlace de inicio de sesión - CHOJIN Beats');
+            $emailService->setSubject('Tu enlace de inicio de sesión - LubaBeats Beta');
             
             $message = view('auth/magic_link_email', [
                 'nombre' => $usuario['nombre_usuario'],

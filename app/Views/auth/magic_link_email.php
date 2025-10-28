@@ -93,7 +93,7 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>🎵 CHOJIN BEATS</h1>
+            <h1>🎵 LUBABEATS BETA</h1>
             <p>Tu Marketplace de Beats Premium</p>
         </div>
         
@@ -101,7 +101,7 @@
         <div class="content">
             <h2>¡Hola, <?= esc($nombre) ?>!</h2>
             
-            <p>Has solicitado un enlace mágico para iniciar sesión en tu cuenta de CHOJIN Beats.</p>
+            <p>Has solicitado un enlace mágico para iniciar sesión en tu cuenta de LubaBeats Beta.</p>
             
             <p>Haz clic en el botón de abajo para acceder automáticamente a tu cuenta:</p>
             
@@ -131,7 +131,7 @@
         
         <!-- Footer -->
         <div class="footer">
-            <p>© <?= date('Y') ?> CHOJIN BEATS · Todos los derechos reservados</p>
+            <p>© <?= date('Y') ?> LubaBeats Beta - Plataforma gratuita de la familia LUBA</p>
             <p>Desarrollado con ❤️ por <a href="#">LUBA</a></p>
         </div>
     </div>

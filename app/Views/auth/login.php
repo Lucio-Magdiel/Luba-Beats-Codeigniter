@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión | CHOJIN Beats</title>
+    <title>Iniciar Sesión | LubaBeats Beta</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,9 +22,9 @@
             <!-- Logo -->
             <div class="auth-logo">
                 <h1 class="text-gradient">
-                    <i class="bi bi-music-note-beamed"></i> CHOJIN BEATS
+                    <i class="bi bi-music-note-beamed"></i> LUBABEATS BETA
                 </h1>
-                <p>Marketplace de Beats Premium</p>
+                <p>Plataforma Gratuita de Beats</p>
             </div>
             
             <!-- Título -->
@@ -136,7 +136,7 @@
         
         <!-- Footer -->
         <div class="auth-footer mt-6">
-            <p>&copy; <?= date('Y') ?> CHOJIN BEATS · Todos los derechos reservados</p>
+            <p>&copy; <?= date('Y') ?> LubaBeats Beta - Plataforma gratuita de la familia LUBA</p>
             <p class="mt-2">Desarrollado por <a href="<?= site_url('magdiel') ?>">LUBA</a></p>
         </div>
     </div>

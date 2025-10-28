@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Catálogo - Beats Comprados | CHOJIN BEATS</title>
+  <title>Mi Catálogo - Beats Comprados | LubaBeats Beta</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
     <div class="header-content">
       <a href="<?= site_url() ?>" class="logo">
         <i class="bi bi-music-note-beamed" style="font-size: 1.75rem; color: #1ed760;"></i>
-        <span class="logo-text">CHOJIN</span>
+        <span class="logo-text">LubaBeats</span>
       </a>
       
       <nav class="nav-links">
@@ -189,7 +189,7 @@
       <a href="#" class="footer-link">Términos</a>
       <a href="#" class="footer-link">Privacidad</a>
     </div>
-    <p class="copyright">&copy; <?= date('Y') ?> CHOJIN BEATS - Todos los derechos reservados</p>
+    <p class="copyright">&copy; <?= date('Y') ?> LubaBeats Beta - Plataforma gratuita de la familia LUBA</p>
   </footer>
 
   <!-- Scripts -->

@@ -135,3 +135,7 @@ $routes->post('contacto', 'Home::enviarContacto');
 
 // Ruta para el perfil de Magdiel
 $routes->get('magdiel', 'Magdiel::index');
+
+// Página Acerca de
+$routes->get('about', 'About::index');
+$routes->get('acerca-de', 'About::index'); // Alias en español

@@ -60,6 +60,7 @@ class Perfil extends Controller
         ];
         
         $data = [
+            'title' => esc($usuario['nombre_usuario']) . ' - LubaBeats Beta',
             'usuario' => $usuario,
             'beats' => $beats_usuario,
             'musica' => $musica_usuario,

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Catálogo profesional de beats musicales - CHOJIN BEATS">
-  <title>Catálogo de Beats | CHOJIN BEATS</title>
+  <meta name="description" content="Catálogo profesional de beats musicales - LubaBeats Beta - Plataforma gratuita de la familia LUBA">
+  <title>Catálogo de Beats | LubaBeats Beta</title>
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,7 +27,12 @@
     <div class="header-content">
       <a href="<?= site_url('catalogo') ?>" class="logo">
         <i class="bi bi-music-note-beamed"></i>
-        CHOJIN
+        <div class="logo-text">
+          <span class="logo-brand">
+            <span class="logo-luba">LUBA</span><span class="logo-beats">Beats</span>
+          </span>
+          <span class="logo-tagline">PLATAFORMA BETA</span>
+        </div>
       </a>
       
       <!-- Tabs de Navegación -->
@@ -92,10 +97,10 @@
   <!-- Hero Section -->
   <section class="catalog-hero">
     <h1 class="hero-title">
-      <i class="bi bi-music-note-beamed"></i> Explora Nuestra Colección
+      <i class="bi bi-music-note-beamed"></i>  Explora Nuestra Colección
     </h1>
     <p class="hero-subtitle">
-      Beats profesionales y música gratuita para tus proyectos
+      Luba Beats Beta - Explora beats y música para tus proyectos
     </p>
     
     <!-- Barra de Búsqueda -->
@@ -142,7 +147,7 @@
           <div class="section-header">
             <h2 class="section-title">
               <i class="bi bi-disc-fill" style="color: #1ed760;"></i>
-              Beats Profesionales
+              Beats
             </h2>
             <a href="<?= site_url('catalogo/beats') ?>" class="section-link">
               Ver todos
@@ -254,7 +259,7 @@
           <div class="section-header">
             <h2 class="section-title">
               <i class="bi bi-music-note-list" style="color: #9333ea;"></i>
-              Música Gratuita
+              Música
             </h2>
             <a href="<?= site_url('catalogo/musica') ?>" class="section-link">
               Ver todas
@@ -383,7 +388,7 @@
       <a href="#" class="footer-link">Términos</a>
       <a href="#" class="footer-link">Privacidad</a>
     </div>
-    <p class="copyright">&copy; <?= date('Y') ?> CHOJIN BEATS - Todos los derechos reservados</p>
+    <p class="copyright">&copy; <?= date('Y') ?> LubaBeats Beta - Plataforma gratuita de la familia LUBA</p>
   </footer>
 
   <!-- Scripts -->

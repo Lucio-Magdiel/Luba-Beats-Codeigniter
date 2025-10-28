@@ -5,7 +5,7 @@
  */
 
 // ============================================
-// NAVBAR MODERNO - USER DROPDOWN
+// NAVBAR PREMIUM - USER DROPDOWN
 // ============================================
 function toggleUserDropdown() {
     const dropdown = document.getElementById('userDropdown');
@@ -21,7 +21,7 @@ function toggleUserDropdown() {
 }
 
 // ============================================
-// NAVBAR MODERNO - NOTIFICACIONES
+// NAVBAR PREMIUM - NOTIFICACIONES
 // ============================================
 function toggleNotifications() {
     const dropdown = document.getElementById('notificationsDropdown');
@@ -36,45 +36,12 @@ function toggleNotifications() {
     }
 }
 
-// ============================================
-// BARRA DE BÚSQUEDA
-// ============================================
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('navbarSearch');
-    const clearBtn = document.getElementById('clearSearch');
-    
-    if (searchInput && clearBtn) {
-        // Mostrar/ocultar botón de limpiar
-        searchInput.addEventListener('input', function() {
-            if (this.value.length > 0) {
-                clearBtn.style.display = 'flex';
-            } else {
-                clearBtn.style.display = 'none';
-            }
-        });
-        
-        // Limpiar búsqueda
-        clearBtn.addEventListener('click', function() {
-            searchInput.value = '';
-            clearBtn.style.display = 'none';
-            searchInput.focus();
-        });
-        
-        // Búsqueda al presionar Enter
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && this.value.trim()) {
-                window.location.href = `${baseUrl}/catalogo?search=${encodeURIComponent(this.value.trim())}`;
-            }
-        });
-    }
-});
-
 // Cerrar dropdowns al hacer clic fuera
 document.addEventListener('click', function(event) {
     const userDropdown = document.getElementById('userDropdown');
     const notificationsDropdown = document.getElementById('notificationsDropdown');
-    const userBtn = event.target.closest('.user-btn');
-    const notificationBtn = event.target.closest('.icon-btn');
+    const userBtn = event.target.closest('.user-menu-btn');
+    const notificationBtn = event.target.closest('.action-btn');
     
     // Cerrar user dropdown si se hace clic fuera
     if (userDropdown && !userBtn && !event.target.closest('.user-dropdown')) {
@@ -98,11 +65,11 @@ function toggleDropdown() {
 // MOBILE MENU
 // ============================================
 function toggleMobileMenu() {
-    const navLinks = document.getElementById('navLinks');
-    const mobileBtn = document.querySelector('.mobile-menu-btn');
+    const navCenter = document.querySelector('.nav-center');
+    const mobileBtn = document.querySelector('.mobile-toggle');
     
-    if (navLinks) {
-        navLinks.classList.toggle('show');
+    if (navCenter) {
+        navCenter.classList.toggle('show');
     }
     
     if (mobileBtn) {

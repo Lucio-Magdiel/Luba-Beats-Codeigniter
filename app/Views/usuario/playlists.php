@@ -1,55 +1,12 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis Playlists - CHOJIN</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="<?= base_url('assets/css/base/reset.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/base/variables.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/base/typography.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/components/header.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/components/buttons.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/components/cards.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/components/modal.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/pages/playlists.css') ?>">
-</head>
-<body>
-    <header class="header">
-        <div class="header-container">
-            <div class="header-logo">
-                <a href="<?= base_url('/') ?>">
-                    <i class="bi bi-music-note-beamed"></i>
-                    <span>CHOJIN</span>
-                </a>
-            </div>
-            <nav class="header-nav">
-                <a href="<?= base_url('/catalogo') ?>">
-                    <i class="bi bi-grid"></i>
-                    <span>Catálogo</span>
-                </a>
-                <a href="<?= base_url('/usuario/playlists') ?>" class="active">
-                    <i class="bi bi-music-note-list"></i>
-                    <span>Mis Playlists</span>
-                </a>
-                <a href="<?= base_url('/usuario/mi-perfil') ?>">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Mi Perfil</span>
-                </a>
-            </nav>
-            <div class="header-actions">
-                <a href="<?= base_url('/auth/logout') ?>" class="btn-secondary">
-                    <i class="bi bi-box-arrow-right"></i>
-                    Cerrar Sesión
-                </a>
-            </div>
-        </div>
-    </header>
+<?= $this->extend('layouts/main') ?>
 
-    <main class="playlists-container">
+<?= $this->section('styles') ?>
+<link rel="stylesheet" href="<?= base_url('assets/css/components/modal.css') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/css/pages/playlists.css') ?>">
+<?= $this->endSection() ?>
+
+<?= $this->section('content') ?>
+<main class="playlists-container">
         <div class="playlists-header">
             <div class="header-content">
                 <h1 class="page-title">
@@ -235,7 +192,10 @@
             </form>
         </div>
     </div>
+</main>
+<?= $this->endSection() ?>
 
+<?= $this->section('scripts') ?>
     <script>
         function openCreateModal() {
             document.getElementById('createModal').classList.add('active');
@@ -262,5 +222,4 @@
             }
         }
     </script>
-</body>
-</html>
+<?= $this->endSection() ?>

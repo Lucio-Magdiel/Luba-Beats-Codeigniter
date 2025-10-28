@@ -235,6 +235,26 @@ window.onclick = function(event) {
 </script>
 
 <style>
+/* Modal Base */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.modal.active {
+    display: flex;
+}
+
 /* Playlist Items en Modal */
 .modal-subtitle {
     font-size: 0.875rem;

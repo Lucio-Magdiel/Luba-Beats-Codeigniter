@@ -25,7 +25,7 @@ WHERE `id` = 8;
 
 -- OPCIÓN B: Crear un nuevo usuario Super Admin desde cero
 -- Descomenta las siguientes líneas y ajusta los datos:
-
+    
 -- INSERT INTO `usuarios` 
 -- (`nombre_usuario`, `correo`, `contrasena`, `tipo`, `fecha_registro`) 
 -- VALUES 

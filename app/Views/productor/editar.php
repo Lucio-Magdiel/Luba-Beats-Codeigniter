@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Editar Beat | CHOJIN Beats</title>
+  <title>Editar Beat | LubaBeats Beta</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   
   <!-- Google Fonts -->

@@ -68,22 +68,34 @@ class Usuario extends Controller
             'bio' => 'permit_empty|max_length[500]',
             'foto_perfil' => 'if_exist|max_size[foto_perfil,2048]|ext_in[foto_perfil,jpg,jpeg,png,gif]',
             'banner' => 'if_exist|max_size[banner,5120]|ext_in[banner,jpg,jpeg,png,gif]',
+        ], [
+            'foto_perfil' => [
+                'max_size' => 'La foto de perfil no debe superar los 2MB',
+                'ext_in' => 'La foto de perfil debe ser JPG, JPEG, PNG o GIF'
+            ],
+            'banner' => [
+                'max_size' => 'El banner no debe superar los 5MB',
+                'ext_in' => 'El banner debe ser JPG, JPEG, PNG o GIF'
+            ]
         ]);
         
         if (!$validation->withRequest($this->request)->run()) {
-            return view('usuario/mi_perfil', [
-                'usuario' => $usuarioModel->find($id_usuario),
-                'validation' => $this->validator
-            ]);
+            $errors = $validation->getErrors();
+            $errorMessage = implode(', ', $errors);
+            session()->setFlashdata('error', $errorMessage);
+            return redirect()->back()->withInput();
         }
         
         $data = [
-            'bio' => $this->request->getPost('bio')
+            'bio' => $this->request->getPost('bio') ?? ''
         ];
+        
+        $uploadErrors = [];
+        $uploadSuccess = [];
         
         // Subir foto de perfil a Cloudinary
         $fotoPerfil = $this->request->getFile('foto_perfil');
-        if ($fotoPerfil && $fotoPerfil->isValid()) {
+        if ($fotoPerfil && $fotoPerfil->isValid() && !$fotoPerfil->hasMoved()) {
             $result = $this->cloudinary->uploadProfilePhoto(
                 $fotoPerfil->getTempName(), 
                 $id_usuario
@@ -91,14 +103,16 @@ class Usuario extends Controller
             
             if ($result['success']) {
                 $data['foto_perfil'] = $result['url'];
+                $uploadSuccess[] = 'Foto de perfil actualizada';
             } else {
+                $uploadErrors[] = 'Error al subir foto de perfil: ' . $result['error'];
                 log_message('error', 'Error subiendo foto de perfil: ' . $result['error']);
             }
         }
         
         // Subir banner a Cloudinary
         $banner = $this->request->getFile('banner');
-        if ($banner && $banner->isValid()) {
+        if ($banner && $banner->isValid() && !$banner->hasMoved()) {
             $result = $this->cloudinary->uploadProfileBanner(
                 $banner->getTempName(), 
                 $id_usuario
@@ -106,14 +120,37 @@ class Usuario extends Controller
             
             if ($result['success']) {
                 $data['banner'] = $result['url'];
+                $uploadSuccess[] = 'Banner actualizado';
             } else {
+                $uploadErrors[] = 'Error al subir banner: ' . $result['error'];
                 log_message('error', 'Error subiendo banner: ' . $result['error']);
             }
         }
         
-        $usuarioModel->update($id_usuario, $data);
+        // Actualizar base de datos
+        if (!empty($data['bio']) || !empty($data['foto_perfil']) || !empty($data['banner'])) {
+            $usuarioModel->update($id_usuario, $data);
+        }
         
-        session()->setFlashdata('mensaje', 'Perfil actualizado exitosamente');
+        // Mensajes de feedback
+        if (!empty($uploadSuccess)) {
+            if (count($data) === 1 && isset($data['bio'])) {
+                session()->setFlashdata('mensaje', 'Biografía actualizada exitosamente');
+            } else {
+                $message = '✓ ' . implode(' ✓ ', $uploadSuccess);
+                if (!empty($data['bio'])) {
+                    $message .= ' ✓ Biografía actualizada';
+                }
+                session()->setFlashdata('mensaje', $message);
+            }
+        } else if (!empty($data['bio'])) {
+            session()->setFlashdata('mensaje', 'Biografía actualizada exitosamente');
+        }
+        
+        if (!empty($uploadErrors)) {
+            session()->setFlashdata('error', implode(', ', $uploadErrors));
+        }
+        
         return redirect()->to('/usuario/mi-perfil');
     }
     

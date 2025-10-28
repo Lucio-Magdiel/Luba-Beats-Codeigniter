@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Playlist - CHOJIN</title>
+    <title>Editar Playlist - LubaBeats Beta</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="<?= base_url('assets/css/base/reset.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/base/variables.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/base/typography.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/components/header.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/components/buttons.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/components/forms.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/components/cards.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/pages/editar-playlist.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/base/reset.css?v=' . time()) ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/base/variables.css?v=' . time()) ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/base/typography.css?v=' . time()) ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/components/buttons.css?v=' . time()) ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/components/forms.css?v=' . time()) ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/components/cards.css?v=' . time()) ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/pages/editar-playlist.css?v=' . time()) ?>">
     <!-- SortableJS para Drag & Drop -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
@@ -25,7 +24,7 @@
             <div class="header-logo">
                 <a href="<?= base_url('/') ?>">
                     <i class="bi bi-music-note-beamed"></i>
-                    <span>CHOJIN</span>
+                    <span><span style="color: #1ed760;">LUBA</span><span style="color: #fff;">Beats</span></span>
                 </a>
             </div>
             <nav class="header-nav">

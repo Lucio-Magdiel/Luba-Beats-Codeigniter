@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Perfil - CHOJIN</title>
+    <title>Mi Perfil - LubaBeats Beta</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="<?= base_url('assets/css/base/reset.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/base/variables.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/base/typography.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/components/header.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/components/buttons.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/components/forms.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/pages/perfil.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/base/reset.css?v=' . time()) ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/base/variables.css?v=' . time()) ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/base/typography.css?v=' . time()) ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/components/buttons.css?v=' . time()) ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/components/forms.css?v=' . time()) ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/pages/perfil.css?v=' . time()) ?>">
 </head>
 <body>
     <header class="header">
@@ -22,7 +21,7 @@
             <div class="header-logo">
                 <a href="<?= base_url('/') ?>">
                     <i class="bi bi-music-note-beamed"></i>
-                    <span>CHOJIN</span>
+                    <span><span style="color: #1ed760;">LUBA</span><span style="color: #fff;">Beats</span></span>
                 </a>
             </div>
             <nav class="header-nav">
@@ -187,6 +186,27 @@
     <script>
         function previewImage(input, previewId) {
             if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                // Validar tipo de archivo
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+                if (!validTypes.includes(file.type)) {
+                    alert('❌ Por favor selecciona una imagen válida (JPG, PNG o GIF)');
+                    input.value = '';
+                    return;
+                }
+                
+                // Validar tamaño (Avatar: 2MB, Banner: 5MB)
+                const maxSize = previewId === 'avatarPreview' ? 2 * 1024 * 1024 : 5 * 1024 * 1024;
+                const maxSizeMB = previewId === 'avatarPreview' ? '2MB' : '5MB';
+                
+                if (file.size > maxSize) {
+                    alert(`❌ La imagen es muy grande. Tamaño máximo: ${maxSizeMB}`);
+                    input.value = '';
+                    return;
+                }
+                
+                // Mostrar preview
                 const reader = new FileReader();
                 const previewElement = document.getElementById(previewId);
                 
@@ -201,11 +221,30 @@
                     } else {
                         previewElement.src = e.target.result;
                     }
+                    
+                    // Mostrar indicador de cambio pendiente
+                    const editBtn = previewElement.parentNode.querySelector('.avatar-edit-btn, .banner-edit-btn');
+                    if (editBtn && !editBtn.classList.contains('file-selected')) {
+                        editBtn.classList.add('file-selected');
+                        editBtn.innerHTML = '<i class="bi bi-check-circle"></i> Imagen Seleccionada';
+                    }
                 }
                 
-                reader.readAsDataURL(input.files[0]);
+                reader.readAsDataURL(file);
             }
         }
+        
+        // Mostrar indicador de carga al enviar el formulario
+        document.querySelector('.perfil-form').addEventListener('submit', function(e) {
+            const avatarInput = document.getElementById('avatarInput');
+            const bannerInput = document.getElementById('bannerInput');
+            
+            if (avatarInput.files.length > 0 || bannerInput.files.length > 0) {
+                const submitBtn = this.querySelector('button[type="submit"]');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="bi bi-cloud-upload"></i> Subiendo imágenes...';
+            }
+        });
     </script>
 </body>
 </html>

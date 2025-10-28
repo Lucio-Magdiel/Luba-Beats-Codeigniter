@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Mis Favoritos | CHOJIN Beats</title>
+  <title>Mis Favoritos | LubaBeats Beta</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   
   <!-- Google Fonts -->
@@ -311,7 +311,7 @@
       <a href="<?= site_url('magdiel') ?>" class="footer-link">Magdiel UCHIHA</a>
       <a href="<?= site_url('contacto') ?>" class="footer-link">Contacto</a>
     </div>
-    <p class="copyright">&copy; <?= date('Y') ?> CHOJIN BEATS - Todos los derechos reservados</p>
+    <p class="copyright">&copy; <?= date('Y') ?> LubaBeats Beta - Plataforma gratuita de la familia LUBA</p>
   </footer>
 
   <!-- Scripts -->

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración | CHOJIN</title>
+    <title>Panel de Administración | LubaBeats Beta</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/base/reset.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/base/variables.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/base/typography.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/css/components/header.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/components/buttons.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/components/cards.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/pages/admin.css') ?>">
@@ -25,7 +24,7 @@
             <div class="header-logo">
                 <a href="<?= base_url('/') ?>">
                     <i class="bi bi-music-note-beamed"></i>
-                    <span>CHOJIN</span>
+                    <span>LubaBeats</span>
                 </a>
             </div>
             <nav class="header-nav">

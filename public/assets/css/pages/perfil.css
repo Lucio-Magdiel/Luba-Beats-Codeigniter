@@ -133,6 +133,23 @@
     box-shadow: 0 6px 20px rgba(30, 215, 96, 0.6);
 }
 
+/* Indicador de archivo seleccionado */
+.avatar-edit-btn.file-selected,
+.banner-edit-btn.file-selected {
+    background: #1ed760;
+    color: #000;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 4px 12px rgba(30, 215, 96, 0.4);
+    }
+    50% {
+        box-shadow: 0 4px 20px rgba(30, 215, 96, 0.8);
+    }
+}
+
 .perfil-details {
     flex: 1;
     padding-bottom: 0.5rem;
