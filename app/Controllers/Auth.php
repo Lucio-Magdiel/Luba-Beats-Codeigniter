@@ -192,12 +192,28 @@ class Auth extends \CodeIgniter\Controller
     // GOOGLE OAUTH LOGIN
     // ========================================
     
+    /**
+     * Obtiene la URI de redirección dinámica para Google OAuth
+     */
+    private function getGoogleRedirectUri()
+    {
+        // Si está configurada en .env, usarla
+        $redirectUri = env('google.redirectUri');
+        
+        // Si no está configurada, generar automáticamente
+        if (empty($redirectUri)) {
+            $redirectUri = base_url('auth/google/callback');
+        }
+        
+        return $redirectUri;
+    }
+    
     public function loginWithGoogle()
     {
         $provider = new Google([
             'clientId'     => env('google.clientId'),
             'clientSecret' => env('google.clientSecret'),
-            'redirectUri'  => env('google.redirectUri'),
+            'redirectUri'  => $this->getGoogleRedirectUri(),
         ]);
         
         $authUrl = $provider->getAuthorizationUrl();
@@ -211,7 +227,7 @@ class Auth extends \CodeIgniter\Controller
         $provider = new Google([
             'clientId'     => env('google.clientId'),
             'clientSecret' => env('google.clientSecret'),
-            'redirectUri'  => env('google.redirectUri'),
+            'redirectUri'  => $this->getGoogleRedirectUri(),
         ]);
         
         // Verificar state para prevenir CSRF
