@@ -233,26 +233,24 @@ class Auth extends \CodeIgniter\Controller
             $email = $googleUser->getEmail();
             $nombre = $googleUser->getName();
             
-            // Buscar o crear usuario
+            // Buscar usuario existente
             $usuarioModel = new UsuarioModel();
             $usuario = $usuarioModel->where('correo', $email)->first();
             
             if (!$usuario) {
-                // Crear nuevo usuario automáticamente
-                $data = [
-                    'nombre_usuario' => $nombre,
-                    'correo'         => $email,
-                    'contrasena'     => password_hash(bin2hex(random_bytes(16)), PASSWORD_BCRYPT),
-                    'tipo'           => 'comprador', // Tipo por defecto
-                    'fecha_registro' => date('Y-m-d H:i:s'),
-                    'verificado_google' => 1,
-                ];
+                // Usuario nuevo - guardar datos temporales en sesión
+                $session = session();
+                $session->set([
+                    'oauth_temp_email'  => $email,
+                    'oauth_temp_nombre' => $nombre,
+                    'oauth_provider'    => 'google',
+                ]);
                 
-                $usuarioModel->insert($data);
-                $usuario = $usuarioModel->where('correo', $email)->first();
+                // Redirigir a completar perfil
+                return redirect()->to('/auth/completar-perfil');
             }
             
-            // Iniciar sesión
+            // Usuario existente - iniciar sesión directamente
             $session = session();
             $session->set([
                 'id'            => $usuario['id'],
@@ -261,7 +259,7 @@ class Auth extends \CodeIgniter\Controller
                 'logueado'      => true,
             ]);
             
-            session()->setFlashdata('success', '¡Bienvenido, ' . $usuario['nombre_usuario'] . '!');
+            session()->setFlashdata('success', '¡Bienvenido de nuevo, ' . $usuario['nombre_usuario'] . '!');
             
             // Redirigir según tipo de usuario
             switch ($usuario['tipo']) {
@@ -361,11 +359,12 @@ class Auth extends \CodeIgniter\Controller
             return redirect()->to('/auth/login');
         }
         
-        // Buscar usuario y autenticar
+        // Buscar usuario
         $usuarioModel = new UsuarioModel();
         $usuario = $usuarioModel->where('correo', $link['email'])->first();
         
         if ($usuario) {
+            // Usuario existente - iniciar sesión
             $session = session();
             $session->set([
                 'id'            => $usuario['id'],
@@ -388,9 +387,135 @@ class Auth extends \CodeIgniter\Controller
                     return redirect()->to('/catalogo');
             }
         } else {
-            session()->setFlashdata('error', 'Usuario no encontrado.');
+            // Usuario nuevo - guardar email temporal y redirigir a completar perfil
+            $session = session();
+            $session->set([
+                'oauth_temp_email'  => $link['email'],
+                'oauth_temp_nombre' => explode('@', $link['email'])[0], // Nombre sugerido del email
+                'oauth_provider'    => 'magic_link',
+            ]);
+            
+            return redirect()->to('/auth/completar-perfil');
+        }
+    }
+    
+    // ========================================
+    // COMPLETAR PERFIL (Para OAuth y Magic Link)
+    // ========================================
+    
+    public function completarPerfil()
+    {
+        // Verificar que haya datos temporales
+        $session = session();
+        $email = $session->get('oauth_temp_email');
+        
+        if (!$email) {
+            session()->setFlashdata('error', 'Sesión expirada. Intenta iniciar sesión de nuevo.');
             return redirect()->to('/auth/login');
+        }
+        
+        $data = [
+            'email'    => $email,
+            'nombre'   => $session->get('oauth_temp_nombre'),
+            'provider' => $session->get('oauth_provider'),
+        ];
+        
+        return view('auth/completar_perfil', $data);
+    }
+    
+    public function procesarCompletarPerfil()
+    {
+        // Verificar que haya datos temporales
+        $session = session();
+        $email = $session->get('oauth_temp_email');
+        $provider = $session->get('oauth_provider');
+        
+        if (!$email) {
+            session()->setFlashdata('error', 'Sesión expirada. Intenta iniciar sesión de nuevo.');
+            return redirect()->to('/auth/login');
+        }
+        
+        // Validación
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'nombre_usuario' => [
+                'label' => 'Nombre de usuario',
+                'rules' => 'required|min_length[3]|max_length[50]|alpha_numeric_space|is_unique[usuarios.nombre_usuario]',
+                'errors' => [
+                    'required' => 'El {field} es obligatorio.',
+                    'min_length' => 'El {field} debe tener al menos 3 caracteres.',
+                    'max_length' => 'El {field} no debe exceder 50 caracteres.',
+                    'alpha_numeric_space' => 'El {field} solo puede contener letras, números y espacios.',
+                    'is_unique' => 'Este {field} ya está en uso. Por favor elige otro.',
+                ]
+            ],
+            'tipo' => [
+                'label' => 'Tipo de usuario',
+                'rules' => 'required|in_list[productor,artista,comprador]',
+                'errors' => [
+                    'required' => 'Debes seleccionar un tipo de usuario.',
+                    'in_list' => 'Tipo de usuario inválido.',
+                ]
+            ],
+        ]);
+        
+        if (!$validation->withRequest($this->request)->run()) {
+            $data = [
+                'email'      => $email,
+                'nombre'     => $session->get('oauth_temp_nombre'),
+                'provider'   => $provider,
+                'validation' => $validation,
+            ];
+            return view('auth/completar_perfil', $data);
+        }
+        
+        // Crear usuario
+        $usuarioModel = new UsuarioModel();
+        
+        $data = [
+            'nombre_usuario'    => trim($this->request->getPost('nombre_usuario')),
+            'correo'            => $email,
+            'contrasena'        => password_hash(bin2hex(random_bytes(16)), PASSWORD_BCRYPT),
+            'tipo'              => $this->request->getPost('tipo'),
+            'fecha_registro'    => date('Y-m-d H:i:s'),
+            'verificado_google' => ($provider === 'google') ? 1 : 0,
+        ];
+        
+        try {
+            $usuarioModel->insert($data);
+            $usuario = $usuarioModel->where('correo', $email)->first();
+            
+            // Limpiar datos temporales
+            $session->remove(['oauth_temp_email', 'oauth_temp_nombre', 'oauth_provider']);
+            
+            // Iniciar sesión
+            $session->set([
+                'id'            => $usuario['id'],
+                'nombre_usuario'=> $usuario['nombre_usuario'],
+                'tipo'          => $usuario['tipo'],
+                'logueado'      => true,
+            ]);
+            
+            session()->setFlashdata('success', '¡Bienvenido a LubaBeats Beta, ' . $usuario['nombre_usuario'] . '!');
+            
+            // Redirigir según tipo de usuario
+            switch ($usuario['tipo']) {
+                case 'super_admin':
+                    return redirect()->to('/admin/dashboard');
+                case 'productor':
+                    return redirect()->to('/productor/panel');
+                case 'artista':
+                    return redirect()->to('/artista/panel');
+                default:
+                    return redirect()->to('/catalogo');
+            }
+            
+        } catch (\Exception $e) {
+            log_message('error', 'Error al completar perfil: ' . $e->getMessage());
+            session()->setFlashdata('error', 'Ocurrió un error. Por favor intenta de nuevo.');
+            return redirect()->to('/auth/completar-perfil');
         }
     }
     
 }
+

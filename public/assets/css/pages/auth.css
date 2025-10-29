@@ -67,3 +67,259 @@
     text-decoration: none;
     font-weight: 600;
 }
+
+/* ============================================
+   TIPO DE USUARIO - Tarjetas de Selección
+   ============================================ */
+.tipo-usuario-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.tipo-card {
+    position: relative;
+    cursor: pointer;
+    border-radius: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.tipo-card:hover {
+    border-color: rgba(30, 215, 96, 0.4);
+    background: rgba(30, 215, 96, 0.06);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(30, 215, 96, 0.15);
+}
+
+.tipo-card.selected {
+    border-color: var(--accent-color);
+    background: rgba(30, 215, 96, 0.12);
+    box-shadow: 0 4px 20px rgba(30, 215, 96, 0.2);
+}
+
+.tipo-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.tipo-card-content {
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+}
+
+/* Icono principal */
+.tipo-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: rgba(30, 215, 96, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.tipo-card:hover .tipo-icon {
+    background: rgba(30, 215, 96, 0.15);
+    transform: scale(1.05);
+}
+
+.tipo-card.selected .tipo-icon {
+    background: rgba(30, 215, 96, 0.2);
+    transform: scale(1.1);
+}
+
+.tipo-icon i {
+    font-size: 28px;
+    color: var(--accent-color);
+}
+
+/* Información del tipo */
+.tipo-info {
+    text-align: center;
+    flex: 1;
+}
+
+.tipo-info h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+}
+
+.tipo-info p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Check de selección */
+.tipo-check {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+}
+
+.tipo-card.selected .tipo-check {
+    opacity: 1;
+    transform: scale(1);
+    background: var(--accent-color);
+}
+
+.tipo-check i {
+    font-size: 14px;
+    color: #000;
+}
+
+/* Efecto de borde animado en selección */
+.tipo-card.selected::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 14px;
+    background: linear-gradient(135deg, 
+        rgba(30, 215, 96, 0.15) 0%, 
+        rgba(30, 215, 96, 0.05) 100%
+    );
+    pointer-events: none;
+}
+
+/* Animación de pulso al seleccionar */
+.tipo-card.selected .tipo-icon {
+    animation: pulseIcon 0.6s ease;
+}
+
+.tipo-card.selected .tipo-check {
+    animation: checkAppear 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pulseIcon {
+    0%, 100% {
+        transform: scale(1.1);
+    }
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+@keyframes checkAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(-45deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* Efecto de brillo sutil */
+.tipo-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.03) 50%,
+        transparent 70%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.tipo-card:hover::after {
+    transform: translateX(100%);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tipo-usuario-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .tipo-card-content {
+        flex-direction: row;
+        padding: 16px;
+        gap: 14px;
+    }
+    
+    .tipo-icon {
+        width: 50px;
+        height: 50px;
+        flex-shrink: 0;
+    }
+    
+    .tipo-icon i {
+        font-size: 24px;
+    }
+    
+    .tipo-info {
+        text-align: left;
+    }
+    
+    .tipo-info h4 {
+        font-size: 14px;
+    }
+    
+    .tipo-info p {
+        font-size: 11px;
+    }
+    
+    .tipo-check {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 640px) {
+    .tipo-usuario-grid {
+        gap: 10px;
+    }
+    
+    .tipo-card-content {
+        padding: 14px;
+        gap: 12px;
+    }
+    
+    .tipo-icon {
+        width: 46px;
+        height: 46px;
+    }
+    
+    .tipo-icon i {
+        font-size: 22px;
+    }
+}
+
+

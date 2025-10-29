@@ -17,6 +17,7 @@ class UsuarioModel extends Model
         'foto_perfil',
         'banner',
         'bio',
+        'verificado_google',
         'fecha_registro',
     ];
 

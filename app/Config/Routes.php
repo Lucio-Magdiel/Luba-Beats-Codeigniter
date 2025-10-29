@@ -18,6 +18,10 @@ $routes->get('auth/registro', 'Auth::registro');
 $routes->post('auth/procesar_registro', 'Auth::procesar_registro');
 $routes->get('auth/logout', 'Auth::logout');
 
+// Completar perfil (OAuth y Magic Link)
+$routes->get('auth/completar-perfil', 'Auth::completarPerfil');
+$routes->post('auth/procesar-completar-perfil', 'Auth::procesarCompletarPerfil');
+
 // Google OAuth
 $routes->get('auth/google', 'Auth::loginWithGoogle');
 $routes->get('auth/google/callback', 'Auth::googleCallback');
