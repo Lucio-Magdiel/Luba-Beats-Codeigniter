@@ -22,8 +22,14 @@ Ve a: https://console.cloud.google.com/
 
 2. **URIs de redirección autorizadas:**
    ```
+   https://lucio.tknegocios.com/chojin/public/auth/google/callback
+   ```
+   
+   ⚠️ **NOTA:** También puedes agregar la versión sin `/public/`:
+   ```
    https://lucio.tknegocios.com/chojin/auth/google/callback
    ```
+   Esto permitirá ambas configuraciones.
 
 ⚠️ **IMPORTANTE:** 
 - La URI debe ser **exactamente** como está escrita
@@ -70,7 +76,8 @@ CI_ENVIRONMENT = production
 # APP
 #--------------------------------------------------------------------
 
-app.baseURL = 'https://lucio.tknegocios.com/chojin/'
+# La baseURL debe apuntar a la carpeta public (donde está index.php)
+app.baseURL = 'https://lucio.tknegocios.com/chojin/public/'
 app.forceGlobalSecureRequests = true
 
 #--------------------------------------------------------------------
@@ -96,9 +103,11 @@ cloudinary.apiSecret = [TU_API_SECRET]
 # GOOGLE OAUTH CONFIGURATION
 #--------------------------------------------------------------------
 
+# CRÍTICO: Esta URL debe coincidir EXACTAMENTE con Google Cloud Console
+# Incluye /public/ si tu baseURL lo incluye
 google.clientId = [TU_CLIENT_ID].apps.googleusercontent.com
 google.clientSecret = [TU_CLIENT_SECRET]
-google.redirectUri = https://lucio.tknegocios.com/chojin/auth/google/callback
+google.redirectUri = https://lucio.tknegocios.com/chojin/public/auth/google/callback
 ```
 
 ⚠️ **Reemplaza los valores entre corchetes con tus credenciales reales**
@@ -182,10 +191,13 @@ Verifica que `/public_html/chojin/public/.htaccess` tenga:
 **Solución:**
 1. Verifica en Google Cloud Console que la URI sea **exactamente:**
    ```
-   https://lucio.tknegocios.com/chojin/auth/google/callback
+   https://lucio.tknegocios.com/chojin/public/auth/google/callback
    ```
-2. Verifica en tu `.env` que `google.redirectUri` sea igual
-3. Limpia la caché: `php spark cache:clear`
+   (Nota: Incluye `/public/` porque CodeIgniter usa esa carpeta como punto de entrada)
+
+2. Verifica en tu `.env` que `google.redirectUri` sea **idéntico**
+3. Asegúrate que `app.baseURL` termine en `/public/`
+4. Limpia la caché: `php spark cache:clear`
 
 ### Error: "500 Internal Server Error"
 
