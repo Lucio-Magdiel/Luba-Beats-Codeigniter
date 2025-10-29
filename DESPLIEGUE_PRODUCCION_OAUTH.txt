@@ -1,0 +1,308 @@
+═══════════════════════════════════════════════════════════════
+  🚀 DESPLIEGUE A PRODUCCIÓN - Google OAuth + Completar Perfil
+  LubaBeats Beta
+═══════════════════════════════════════════════════════════════
+
+📦 ARCHIVOS PREPARADOS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ ZIP Creado: LubaBeats_Beta_Produccion.zip (0.19 MB)
+✅ Push a GitHub: Completado (commit 777ceb6)
+✅ Base de datos: database_add_google_oauth.sql
+
+CONTENIDO DEL ZIP:
+  📁 app/Controllers/Auth.php (métodos OAuth + completar perfil)
+  📁 app/Views/auth/completar_perfil.php (NUEVO)
+  📁 app/Config/Routes.php (rutas OAuth + completar perfil)
+  📁 app/Models/UsuarioModel.php (campo verificado_google)
+  📁 app/Libraries/ (si existen)
+  📁 public/assets/css/pages/auth.css (estilos tarjetas)
+
+═══════════════════════════════════════════════════════════════
+  📋 PASO 1: SUBIR ARCHIVOS A CPANEL
+═══════════════════════════════════════════════════════════════
+
+1. Ir a cPanel → File Manager
+
+2. Navegar a: /public_html/chojin/
+
+3. Subir el archivo: LubaBeats_Beta_Produccion.zip
+
+4. Click derecho en el ZIP → Extract
+
+5. Sobrescribir archivos cuando pregunte
+
+6. Eliminar el ZIP después de extraer
+
+═══════════════════════════════════════════════════════════════
+  📋 PASO 2: ACTUALIZAR BASE DE DATOS
+═══════════════════════════════════════════════════════════════
+
+1. Ir a cPanel → phpMyAdmin
+
+2. Seleccionar base de datos: luciotknegocios_chojin_bd
+
+3. Click en pestaña "SQL"
+
+4. Copiar y pegar este código:
+
+┌─────────────────────────────────────────────────────────┐
+│ ALTER TABLE usuarios                                    
+│ ADD COLUMN IF NOT EXISTS verificado_google TINYINT(1)   │
+│ DEFAULT 0 AFTER bio;    
+
+    
+    ejecute este en su lugar, el codigo anteior me salio error
+
+    SET @preparedStatement = (SELECT IF(
+    (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE
+        (table_name = 'usuarios')
+        AND (table_schema = DATABASE())
+        AND (column_name = 'verificado_google')
+    ) > 0,
+    "SELECT 1",
+    "ALTER TABLE usuarios ADD verificado_google TINYINT(1) DEFAULT 0 AFTER bio;"
+    ));
+
+    PREPARE alterIfNotExists FROM @preparedStatement;
+    EXECUTE alterIfNotExists;
+    DEALLOCATE PREPARE alterIfNotExists;
+                           
+└─────────────────────────────────────────────────────────┘
+
+5. Click en "Go" / "Ejecutar"
+
+6. Verificar mensaje: "Campo agregado exitosamente"
+
+═══════════════════════════════════════════════════════════════
+  📋 PASO 3: CONFIGURAR CREDENCIALES DE GOOGLE EN .ENV
+═══════════════════════════════════════════════════════════════
+
+1. En cPanel File Manager, ir a: /public_html/chojin/
+
+2. Buscar archivo: .env
+
+3. Si NO existe, crear uno nuevo:
+   • Click derecho → Create New File
+   • Nombre: .env
+   • Copiar contenido del archivo .env local
+
+4. Editar el archivo .env
+
+5. Buscar la sección de Google OAuth o agregar al final:
+
+┌─────────────────────────────────────────────────────────┐
+│ #------------------------------------------------------ │
+│ # GOOGLE OAUTH CONFIGURATION                           │
+│ #------------------------------------------------------ │
+│                                                          │
+│ google.clientId = [TU_CLIENT_ID_COMPLETO]              │
+│                                                          │
+│ google.clientSecret = [TU_CLIENT_SECRET]               │
+│                                                          │
+│ google.redirectUri = https://lucio.tknegocios.com/      │
+│ chojin/auth/google/callback                             │
+└─────────────────────────────────────────────────────────┘
+
+6. GUARDAR el archivo
+
+⚠️ IMPORTANTE:
+   • NO sobrescribir las configuraciones de base de datos
+   • NO sobrescribir cloudinary.apiSecret
+   • Solo AGREGAR las líneas de Google OAuth
+   • Usar las credenciales reales de Google Cloud Console
+
+═══════════════════════════════════════════════════════════════
+  📋 PASO 4: VERIFICAR CONFIGURACIÓN EN GOOGLE CLOUD CONSOLE
+═══════════════════════════════════════════════════════════════
+
+1. Ir a: https://console.cloud.google.com/
+
+2. Seleccionar proyecto: LubaBeats Beta
+
+3. "APIs y servicios" → "Credenciales"
+
+4. Click en tu cliente OAuth
+
+5. Verificar que esté configurado:
+
+   ORÍGENES AUTORIZADOS:
+   ✓ http://localhost
+   ✓ https://lucio.tknegocios.com
+
+   URIs DE REDIRECCIONAMIENTO:
+   ✓ http://localhost/CHOJIN/public/auth/google/callback
+   ✓ https://lucio.tknegocios.com/chojin/auth/google/callback
+
+6. Si falta la URI de producción, agregarla y GUARDAR
+
+═══════════════════════════════════════════════════════════════
+  📋 PASO 5: PROBAR EN PRODUCCIÓN
+═══════════════════════════════════════════════════════════════
+
+1. Abrir navegador en modo incógnito
+
+2. Ir a: https://lucio.tknegocios.com/chojin/auth/login
+
+3. Verificar que aparezca el botón "Continuar con Google"
+
+4. Click en "Continuar con Google"
+
+5. Seleccionar una cuenta de Google (no magdiel@gmail.com)
+
+6. Autorizar la aplicación
+
+7. Deberías ver el formulario "Completar Perfil" con:
+   ✓ Email verificado mostrado
+   ✓ Campo de nombre de usuario
+   ✓ 3 tarjetas interactivas (Productor / Artista / Usuario)
+   ✓ Check verde al seleccionar
+   ✓ Botón "Comenzar en LubaBeats Beta"
+
+8. Completar el formulario y enviar
+
+9. Verificar redirección según tipo:
+   • Productor → /productor/panel
+   • Artista → /artista/panel
+   • Usuario → /catalogo
+
+═══════════════════════════════════════════════════════════════
+  🐛 SOLUCIÓN DE PROBLEMAS
+═══════════════════════════════════════════════════════════════
+
+PROBLEMA 1: "redirect_uri_mismatch"
+┌─────────────────────────────────────────────────────────┐
+│ CAUSA: La URI de producción no está en Google Console   │
+│                                                          │
+│ SOLUCIÓN:                                                │
+│ 1. Ir a Google Cloud Console                            │
+│ 2. Credenciales → Tu cliente OAuth → Editar             │
+│ 3. Agregar URI exacta:                                  │
+│    https://lucio.tknegocios.com/chojin/auth/google/     │
+│    callback                                              │
+│ 4. GUARDAR                                               │
+└─────────────────────────────────────────────────────────┘
+
+PROBLEMA 2: "Access blocked: This app's request is invalid"
+┌─────────────────────────────────────────────────────────┐
+│ CAUSA: Usuario no está en lista de pruebas              │
+│                                                          │
+│ SOLUCIÓN:                                                │
+│ 1. Google Cloud Console                                 │
+│ 2. "Pantalla de consentimiento"                         │
+│ 3. Usuarios de prueba → Agregar usuarios                │
+│ 4. Agregar el correo que estás probando                 │
+└─────────────────────────────────────────────────────────┘
+
+PROBLEMA 3: Página en blanco o error 500
+┌─────────────────────────────────────────────────────────┐
+│ CAUSA: Error en .env o archivos no subidos              │
+│                                                          │
+│ SOLUCIÓN:                                                │
+│ 1. Verificar que .env tenga las 3 líneas de Google      │
+│ 2. Verificar permisos de archivos (644 para .env)       │
+│ 3. Revisar logs en: writable/logs/                      │
+│ 4. Verificar que composer.json tenga league/oauth2      │
+└─────────────────────────────────────────────────────────┘
+
+PROBLEMA 4: "Class Google not found"
+┌─────────────────────────────────────────────────────────┐
+│ CAUSA: Librería OAuth no instalada en producción        │
+│                                                          │
+│ SOLUCIÓN:                                                │
+│ 1. Conectar por SSH (si tienes acceso)                  │
+│ 2. cd /public_html/chojin/                              │
+│ 3. composer install                                     │
+│                                                          │
+│ Si NO tienes SSH:                                        │
+│ 1. Descargar vendor/ completo del local                 │
+│ 2. Subir vendor/ a producción vía FTP/cPanel            │
+└─────────────────────────────────────────────────────────┘
+
+PROBLEMA 5: Formulario no se ve bien
+┌─────────────────────────────────────────────────────────┐
+│ CAUSA: CSS no se actualizó                              │
+│                                                          │
+│ SOLUCIÓN:                                                │
+│ 1. Verificar que auth.css se subió correctamente        │
+│ 2. Limpiar caché del navegador (Ctrl+Shift+R)           │
+│ 3. Verificar ruta: public/assets/css/pages/auth.css     │
+└─────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════
+  ✅ CHECKLIST DE DESPLIEGUE
+═══════════════════════════════════════════════════════════════
+
+ARCHIVOS:
+□ ZIP subido a cPanel
+□ ZIP extraído en /public_html/chojin/
+□ ZIP eliminado después de extraer
+□ Archivos verificados (Controllers, Views, Config, Models, CSS)
+
+BASE DE DATOS:
+□ Campo verificado_google agregado a tabla usuarios
+□ Script SQL ejecutado exitosamente en phpMyAdmin
+
+CONFIGURACIÓN:
+□ Archivo .env existe en producción
+□ Credenciales de Google agregadas a .env
+□ redirectUri apunta a lucio.tknegocios.com
+□ .env guardado correctamente
+
+GOOGLE CLOUD:
+□ URI de producción agregada a Google Console
+□ Orígenes autorizados actualizados
+□ Cambios guardados en Google Console
+
+PRUEBAS:
+□ Login con Google funciona
+□ Formulario "Completar Perfil" aparece
+□ Tarjetas interactivas funcionan
+□ Check verde aparece al seleccionar
+□ Validación de nombre de usuario funciona
+□ Usuario se crea correctamente
+□ Redirección según tipo funciona
+
+═══════════════════════════════════════════════════════════════
+  📊 RESUMEN DE CAMBIOS
+═══════════════════════════════════════════════════════════════
+
+NUEVAS FUNCIONALIDADES:
+  ✅ Login con Google OAuth (100% gratis)
+  ✅ Formulario de completar perfil para usuarios nuevos
+  ✅ Validación de nombre de usuario único
+  ✅ Selección de tipo de cuenta con tarjetas premium
+  ✅ Animaciones y efectos visuales
+  ✅ Check verde al seleccionar tipo
+  ✅ Responsive en móvil
+
+ARCHIVOS NUEVOS:
+  📄 app/Views/auth/completar_perfil.php
+  📄 database_add_google_oauth.sql
+  📄 SISTEMA_COMPLETAR_PERFIL.txt (documentación)
+
+ARCHIVOS MODIFICADOS:
+  📝 app/Controllers/Auth.php
+  📝 app/Config/Routes.php
+  📝 app/Models/UsuarioModel.php
+  📝 public/assets/css/pages/auth.css
+
+BASE DE DATOS:
+  🗃️ Campo nuevo: usuarios.verificado_google (TINYINT)
+
+═══════════════════════════════════════════════════════════════
+  🎯 SIGUIENTE PASO DESPUÉS DE DESPLEGAR
+═══════════════════════════════════════════════════════════════
+
+1. Probar el flujo completo en producción
+2. Crear un usuario de prueba con Google
+3. Verificar que el perfil se complete correctamente
+4. Probar los 3 tipos de cuenta (Productor/Artista/Usuario)
+5. Verificar que las redirecciones funcionen
+6. Celebrar 🎉
+
+═══════════════════════════════════════════════════════════════
+
+Desarrollado por Magdiel UCHIHA
+LubaBeats Beta © 2025

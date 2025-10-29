@@ -1,0 +1,81 @@
+═══════════════════════════════════════════════════════════
+  🎉 CONFIGURACIÓN DE GOOGLE OAUTH COMPLETADA
+═══════════════════════════════════════════════════════════
+
+✅ CREDENCIALES CONFIGURADAS:
+
+Client ID: 
+[CONFIGURADO EN ARCHIVO .env - NO COMPARTIR]
+
+Client Secret: 
+[CONFIGURADO EN ARCHIVO .env - NO COMPARTIR]
+
+Redirect URI (Local): 
+http://localhost/CHOJIN/public/auth/google/callback
+
+Redirect URI (Producción):
+https://lucio.tknegocios.com/chojin/auth/google/callback
+
+═══════════════════════════════════════════════════════════
+  📝 PRUEBA EL LOGIN CON GOOGLE
+═══════════════════════════════════════════════════════════
+
+PASO 1: Asegúrate de que el servidor esté corriendo
+   → Ya está corriendo en: http://localhost:8080
+
+PASO 2: Abre tu navegador y ve a:
+   → http://localhost:8080/auth/login
+
+PASO 3: Haz click en el botón:
+   → "Continuar con Google"
+
+PASO 4: Selecciona tu cuenta de Google
+
+PASO 5: Autoriza la aplicación "LubaBeats Beta"
+
+PASO 6: Serás redirigido automáticamente
+   → Si eres nuevo: Se creará tu cuenta automáticamente
+   → Serás redirigido al catálogo
+
+═══════════════════════════════════════════════════════════
+  🔧 SOLUCIÓN DE PROBLEMAS
+═══════════════════════════════════════════════════════════
+
+❌ Error: "redirect_uri_mismatch"
+   → Ve a Google Cloud Console
+   → Verifica que la URI esté exactamente así:
+     http://localhost/CHOJIN/public/auth/google/callback
+
+❌ Error: "Access blocked"
+   → Ve a Google Cloud Console
+   → "Pantalla de consentimiento" → "Usuarios de prueba"
+   → Agrega tu correo de Gmail
+
+❌ Error: "invalid_client"
+   → Verifica que copiaste bien el Client ID y Secret
+   → Revisa el archivo: c:\xampp\htdocs\CHOJIN\env
+
+❌ No redirige después de autorizar
+   → Revisa los logs en: writable/logs/
+   → Verifica que composer esté actualizado
+
+═══════════════════════════════════════════════════════════
+  📋 SIGUIENTE PASO: CONFIGURAR EN PRODUCCIÓN
+═══════════════════════════════════════════════════════════
+
+Cuando funcione en local, para configurar en producción:
+
+1. Conectar a cPanel
+2. Editar archivo: /public_html/chojin/.env
+3. Agregar estas líneas (usar tus propias credenciales de Google Cloud Console):
+
+google.clientId = [TU_CLIENT_ID_DE_GOOGLE]
+google.clientSecret = [TU_CLIENT_SECRET_DE_GOOGLE]
+google.redirectUri = https://lucio.tknegocios.com/chojin/auth/google/callback
+
+4. Probar en: https://lucio.tknegocios.com/chojin/auth/login
+
+═══════════════════════════════════════════════════════════
+
+Desarrollado por Magdiel UCHIHA
+LubaBeats Beta © 2025

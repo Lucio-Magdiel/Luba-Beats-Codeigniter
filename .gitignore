@@ -1,7 +1,9 @@
 # Ignorar archivos de entorno
 .env
+env
 .env.local
 .env.production.local
+.env.production
 
 # Ignorar dependencias
 /vendor/
@@ -53,3 +55,7 @@ composer.lock
 # Ignorar archivos de desarrollo
 *.log
 .phpunit.result.cache
+
+# Ignorar archivos ZIP de producción
+*.zip
+LubaBeats_*.zip
