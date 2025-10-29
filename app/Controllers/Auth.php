@@ -79,16 +79,16 @@ class Auth extends \CodeIgniter\Controller
                 return redirect()->to($redirect_url);
             }
             
-            // Redirigir según tipo de usuario
+            // Redirigir según tipo de usuario usando base_url()
             switch ($usuario['tipo']) {
                 case 'super_admin':
-                    return redirect()->to('/admin/dashboard');
+                    return redirect()->to(base_url('admin/dashboard'));
                 case 'productor':
-                    return redirect()->to('/productor/panel');
+                    return redirect()->to(base_url('productor/panel'));
                 case 'artista':
-                    return redirect()->to('/artista/panel');
+                    return redirect()->to(base_url('artista/panel'));
                 default:
-                    return redirect()->to('/catalogo');
+                    return redirect()->to(base_url('catalogo'));
             }
         } else {
             // Login fallido - incrementar intentos
@@ -277,16 +277,16 @@ class Auth extends \CodeIgniter\Controller
             
             session()->setFlashdata('success', '¡Bienvenido de nuevo, ' . $usuario['nombre_usuario'] . '!');
             
-            // Redirigir según tipo de usuario
+            // Redirigir según tipo de usuario usando base_url()
             switch ($usuario['tipo']) {
                 case 'super_admin':
-                    return redirect()->to('/admin/dashboard');
+                    return redirect()->to(base_url('admin/dashboard'));
                 case 'productor':
-                    return redirect()->to('/productor/panel');
+                    return redirect()->to(base_url('productor/panel'));
                 case 'artista':
-                    return redirect()->to('/artista/panel');
+                    return redirect()->to(base_url('artista/panel'));
                 default:
-                    return redirect()->to('/catalogo');
+                    return redirect()->to(base_url('catalogo'));
             }
             
         } catch (\Exception $e) {
